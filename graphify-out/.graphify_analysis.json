@@ -1,0 +1,252 @@
+{
+  "communities": {
+    "0": [
+      "clsx",
+      "framer_motion",
+      "leaflet",
+      "leaflet_heat",
+      "lucide_react",
+      "package_dependencies",
+      "package_dependencies_clsx",
+      "package_dependencies_framer_motion",
+      "package_dependencies_leaflet",
+      "package_dependencies_leaflet_heat",
+      "package_dependencies_lucide_react",
+      "package_dependencies_react",
+      "package_dependencies_react_dom",
+      "package_dependencies_react_leaflet",
+      "package_dependencies_react_router_dom",
+      "package_dependencies_recharts",
+      "package_dependencies_tailwind_merge",
+      "react",
+      "react_dom",
+      "react_leaflet",
+      "react_router_dom",
+      "recharts",
+      "tailwind_merge"
+    ],
+    "1": [
+      "autoprefixer",
+      "oxlint",
+      "package_devdependencies",
+      "package_devdependencies_autoprefixer",
+      "package_devdependencies_oxlint",
+      "package_devdependencies_postcss",
+      "package_devdependencies_tailwindcss",
+      "package_devdependencies_tailwindcss_postcss",
+      "package_devdependencies_types_react",
+      "package_devdependencies_types_react_dom",
+      "package_devdependencies_vite",
+      "package_devdependencies_vitejs_plugin_react",
+      "package_json_tailwindcss",
+      "postcss",
+      "tailwindcss_postcss",
+      "types_react",
+      "types_react_dom",
+      "vite",
+      "vitejs_plugin_react"
+    ],
+    "2": [
+      "ref_react",
+      "src_app",
+      "src_app_app",
+      "src_components_footer",
+      "src_components_footer_footer",
+      "src_components_navbar",
+      "src_components_navbar_navbar",
+      "src_context_incidentcontext",
+      "src_context_incidentcontext_incidentcontext",
+      "src_context_incidentcontext_incidentprovider",
+      "src_context_incidentcontext_useincidents",
+      "src_main",
+      "src_pages_admindashboard_admindashboard",
+      "src_pages_reportincident",
+      "src_pages_reportincident_reportincident"
+    ],
+    "3": [
+      "src_components_tacticalgismap",
+      "src_components_tacticalgismap_asseticon",
+      "src_components_tacticalgismap_createsvgicon",
+      "src_components_tacticalgismap_incidenticoncritical",
+      "src_components_tacticalgismap_incidenticonwarning",
+      "src_components_tacticalgismap_sensoricon",
+      "src_components_tacticalgismap_tacticalgismap",
+      "src_data_admindata",
+      "src_data_admindata_hourly_rainfall_trend",
+      "src_data_admindata_iot_sensor_stations",
+      "src_data_admindata_response_assets",
+      "src_pages_admindashboard"
+    ],
+    "4": [
+      "package",
+      "package_name",
+      "package_private",
+      "package_scripts",
+      "package_scripts_build",
+      "package_scripts_dev",
+      "package_scripts_lint",
+      "package_scripts_preview",
+      "package_type",
+      "package_version"
+    ],
+    "5": [
+      "oxlintrc",
+      "oxlintrc_plugins",
+      "oxlintrc_rules",
+      "oxlintrc_rules_react_only_export_components",
+      "oxlintrc_rules_react_rules_of_hooks",
+      "oxlintrc_schema",
+      "ref_oxc",
+      "ref_warn"
+    ],
+    "6": [
+      "src_data_nerdata",
+      "src_data_nerdata_ai_metrics_summary",
+      "src_data_nerdata_live_bulletins",
+      "src_data_nerdata_ner_states_data",
+      "src_pages_home",
+      "src_pages_home_home"
+    ],
+    "7": [
+      "src_data_corridorsdata",
+      "src_data_corridorsdata_isolated_villages_resilience",
+      "src_data_corridorsdata_ner_highway_corridors",
+      "src_pages_saferoutes",
+      "src_pages_saferoutes_saferoutes"
+    ],
+    "8": [
+      "postcss_config"
+    ],
+    "9": [
+      "tailwind_config"
+    ],
+    "10": [
+      "tailwindcss_tailwindcss"
+    ],
+    "11": [
+      "vite_config"
+    ]
+  },
+  "cohesion": {
+    "0": 0.08695652173913043,
+    "1": 0.10526315789473684,
+    "2": 0.26666666666666666,
+    "3": 0.22727272727272727,
+    "4": 0.2,
+    "5": 0.25,
+    "6": 0.5333333333333333,
+    "7": 0.6,
+    "8": 1.0,
+    "9": 1.0,
+    "10": 1.0,
+    "11": 1.0
+  },
+  "gods": [
+    {
+      "id": "ref_react",
+      "label": "react",
+      "degree": 11
+    },
+    {
+      "id": "src_context_incidentcontext_useincidents",
+      "label": "useIncidents()",
+      "degree": 5
+    },
+    {
+      "id": "package_scripts",
+      "label": "scripts",
+      "degree": 5
+    },
+    {
+      "id": "src_data_nerdata_ner_states_data",
+      "label": "NER_STATES_DATA",
+      "degree": 4
+    },
+    {
+      "id": "src_pages_admindashboard_admindashboard",
+      "label": "AdminDashboard()",
+      "degree": 3
+    },
+    {
+      "id": "src_pages_reportincident_reportincident",
+      "label": "ReportIncident()",
+      "degree": 3
+    },
+    {
+      "id": "oxlintrc_plugins",
+      "label": "plugins",
+      "degree": 3
+    },
+    {
+      "id": "oxlintrc_rules",
+      "label": "rules",
+      "degree": 3
+    },
+    {
+      "id": "src_app_app",
+      "label": "App()",
+      "degree": 2
+    },
+    {
+      "id": "src_components_footer_footer",
+      "label": "Footer()",
+      "degree": 2
+    }
+  ],
+  "surprises": [
+    {
+      "source": "AdminDashboard()",
+      "target": "useIncidents()",
+      "source_files": [
+        "src/pages/AdminDashboard.jsx",
+        "src/context/IncidentContext.jsx"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "cross-file semantic connection"
+    },
+    {
+      "source": "ReportIncident()",
+      "target": "useIncidents()",
+      "source_files": [
+        "src/pages/ReportIncident.jsx",
+        "src/context/IncidentContext.jsx"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "cross-file semantic connection"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `dependencies` connect `dependencies` to `package.json`?",
+      "why": "High betweenness centrality (0.170) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `devDependencies` connect `devDependencies` to `package.json`?",
+      "why": "High betweenness centrality (0.146) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `react` connect `App.jsx` to `AdminDashboard.jsx`, `.oxlintrc.json`, `Home.jsx`, `SafeRoutes.jsx`?",
+      "why": "High betweenness centrality (0.090) - this node is a cross-community bridge."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `clsx`, `framer-motion`, `leaflet` to the rest of the system?",
+      "why": "37 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `dependencies` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.08695652173913043 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `devDependencies` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.10526315789473684 - nodes in this community are weakly interconnected."
+    }
+  ]
+}
