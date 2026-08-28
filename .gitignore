@@ -11,6 +11,11 @@ node_modules
 dist
 dist-ssr
 *.local
+.claude
+.agents
+CLAUDE.md
+walkthrough.md
+walkthrough.pdf
 
 # Editor directories and files
 .vscode/*
