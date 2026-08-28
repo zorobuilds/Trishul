@@ -1,267 +1,69 @@
 @import "tailwindcss";
 
+@config "../tailwind.config.js";
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* ==========================================================================
-   THEME SYSTEM - PROJECT TRISHUL
-   Default: Dark Tactical Mode (.dark)
-   Alternate: Modern Clean Light Mode (.light / :not(.dark))
+   PROJECT TRISHUL - DUAL THEME ENGINE (TAILWIND v4 CLASS BASED)
    ========================================================================== */
-
-/* ---------- BASE ROOT & DARK MODE (Default) ---------- */
-:root,
-html.dark {
-  color-scheme: dark;
-  --bg-body: #020617;
-  --bg-surface: #0f172a;
-  --bg-surface-elevated: #1e293b;
-  --bg-input: #020617;
-  --text-main: #f8fafc;
-  --text-sub: #cbd5e1;
-  --text-muted: #64748b;
-  --border-color: #1e293b;
-  --border-color-subtle: #0f172a;
-  --scrollbar-track: #0b1120;
-  --scrollbar-thumb: #1e293b;
-  --scrollbar-thumb-hover: #334155;
-}
-
-/* ---------- LIGHT MODE ---------- */
-html.light,
-html:not(.dark) {
-  color-scheme: light;
-  --bg-body: #f8fafc;
-  --bg-surface: #ffffff;
-  --bg-surface-elevated: #f1f5f9;
-  --bg-input: #ffffff;
-  --text-main: #0f172a;
-  --text-sub: #334155;
-  --text-muted: #64748b;
-  --border-color: #e2e8f0;
-  --border-color-subtle: #f1f5f9;
-  --scrollbar-track: #f1f5f9;
-  --scrollbar-thumb: #cbd5e1;
-  --scrollbar-thumb-hover: #94a3b8;
-}
 
 @layer base {
   body {
-    background-color: var(--bg-body);
-    color: var(--text-main);
+    background-color: #f8fafc;
+    color: #0f172a;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     transition: background-color 0.25s ease, color 0.25s ease;
   }
+
+  html.dark body {
+    background-color: #020617;
+    color: #f8fafc;
+  }
 }
 
-/* Custom scrollbars */
+/* Custom Scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--scrollbar-track);
+  background: #f1f5f9;
 }
+html.dark ::-webkit-scrollbar-track {
+  background: #0b1120;
+}
+
 ::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-thumb);
-  border-radius: 4px;
+  background: #cbd5e1;
+  border-radius: 9999px;
 }
+html.dark ::-webkit-scrollbar-thumb {
+  background: #1e293b;
+}
+
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--scrollbar-thumb-hover);
+  background: #94a3b8;
+}
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: #334155;
 }
 
-/* ==========================================================================
-   LIGHT MODE OVERRIDES FOR EXISTING TAILWIND SLATE UTILITIES
-   Transforms all dark-coded utility classes to crisp light mode styles
-   ========================================================================== */
-
-html.light body,
-html:not(.dark) body {
-  background-color: #f8fafc !important;
-  color: #0f172a !important;
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* Main background wrappers */
-html.light .bg-slate-950,
-html:not(.dark) .bg-slate-950 {
-  background-color: #f1f5f9 !important;
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-html.light .bg-slate-950\/80,
-html:not(.dark) .bg-slate-950\/80,
-html.light .bg-slate-950\/70,
-html:not(.dark) .bg-slate-950\/70,
-html.light .bg-slate-950\/40,
-html:not(.dark) .bg-slate-950\/40 {
-  background-color: #f8fafc !important;
+.animate-fadeIn {
+  animation: fadeIn 0.25s ease-out forwards;
 }
 
-/* Card surfaces */
-html.light .bg-slate-900,
-html:not(.dark) .bg-slate-900,
-html.light .bg-slate-900\/90,
-html:not(.dark) .bg-slate-900\/90,
-html.light .bg-slate-900\/80,
-html:not(.dark) .bg-slate-900\/80,
-html.light .bg-slate-900\/70,
-html:not(.dark) .bg-slate-900\/70,
-html.light .bg-slate-900\/60,
-html:not(.dark) .bg-slate-900\/60 {
-  background-color: #ffffff !important;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+.animate-slideUp {
+  animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
-
-html.light .bg-slate-800,
-html:not(.dark) .bg-slate-800,
-html.light .bg-slate-800\/90,
-html:not(.dark) .bg-slate-800\/90,
-html.light .bg-slate-800\/80,
-html:not(.dark) .bg-slate-800\/80 {
-  background-color: #e2e8f0 !important;
-}
-
-/* Borders */
-html.light .border-slate-800,
-html:not(.dark) .border-slate-800,
-html.light .border-slate-800\/80,
-html:not(.dark) .border-slate-800\/80,
-html.light .border-slate-800\/50,
-html:not(.dark) .border-slate-800\/50,
-html.light .border-slate-800\/40,
-html:not(.dark) .border-slate-800\/40,
-html.light .border-slate-900,
-html:not(.dark) .border-slate-900,
-html.light .border-slate-700,
-html:not(.dark) .border-slate-700 {
-  border-color: #e2e8f0 !important;
-}
-
-/* Headings and text */
-html.light .text-white,
-html:not(.dark) .text-white,
-html.light .text-slate-100,
-html:not(.dark) .text-slate-100 {
-  color: #0f172a !important;
-}
-
-html.light .text-slate-200,
-html:not(.dark) .text-slate-200 {
-  color: #1e293b !important;
-}
-
-html.light .text-slate-300,
-html:not(.dark) .text-slate-300 {
-  color: #334155 !important;
-}
-
-html.light .text-slate-400,
-html:not(.dark) .text-slate-400,
-html.light .text-slate-500,
-html:not(.dark) .text-slate-500 {
-  color: #64748b !important;
-}
-
-/* Hero Section Gradient in Light Mode */
-html.light section.from-slate-900,
-html:not(.dark) section.from-slate-900 {
-  background-image: linear-gradient(to bottom, #f1f5f9, #ffffff, #ffffff) !important;
-}
-
-html.light .bg-gradient-to-r.from-slate-900,
-html:not(.dark) .bg-gradient-to-r.from-slate-900 {
-  background-image: linear-gradient(to right, #f8fafc, #ffffff, #f8fafc) !important;
-}
-
-/* Form Controls in Light Mode */
-html.light input,
-html:not(.dark) input,
-html.light select,
-html:not(.dark) select,
-html.light textarea,
-html:not(.dark) textarea {
-  background-color: #ffffff !important;
-  color: #0f172a !important;
-  border-color: #cbd5e1 !important;
-}
-
-html.light input::placeholder,
-html:not(.dark) input::placeholder,
-html.light textarea::placeholder,
-html:not(.dark) textarea::placeholder {
-  color: #94a3b8 !important;
-}
-
-/* Header and Navigation in Light Mode */
-html.light header,
-html:not(.dark) header {
-  background-color: rgba(15, 118, 110, 0.95) !important;
-}
-
-html.light header .text-white,
-html:not(.dark) header .text-white {
-  color: #ffffff !important;
-}
-
-html.light header .text-slate-300,
-html:not(.dark) header .text-slate-300 {
-  color: #f0fdfa !important;
-}
-
-html.light header .text-slate-400,
-html:not(.dark) header .text-slate-400 {
-  color: #ccfbf1 !important;
-}
-
-html.light header .bg-slate-900,
-html:not(.dark) header .bg-slate-900 {
-  background-color: rgba(19, 78, 74, 0.8) !important;
-  border-color: rgba(45, 212, 191, 0.3) !important;
-}
-
-/* Footer in Light Mode */
-html.light footer,
-html:not(.dark) footer {
-  background-color: #ffffff !important;
-  border-top-color: #e2e8f0 !important;
-}
-
-/* Colored Buttons Preservation in Light Mode */
-html.light .bg-red-600,
-html:not(.dark) .bg-red-600,
-html.light .bg-red-500,
-html:not(.dark) .bg-red-500,
-html.light .bg-emerald-600,
-html:not(.dark) .bg-emerald-600,
-html.light .bg-primary,
-html:not(.dark) .bg-primary,
-html.light .bg-accent,
-html:not(.dark) .bg-accent {
-  opacity: 1;
-}
-
-html.light .bg-red-600 *,
-html:not(.dark) .bg-red-600 *,
-html.light .bg-red-500 *,
-html:not(.dark) .bg-red-500 *,
-html.light .bg-emerald-600 *,
-html:not(.dark) .bg-emerald-600 * {
-  color: #ffffff !important;
-}
-
-html.light .bg-gradient-to-r.from-primary.to-accent *,
-html:not(.dark) .bg-gradient-to-r.from-primary.to-accent * {
-  color: #020617 !important;
-}
-
-/* Page-specific accent CSS variables */
-body[data-page='home'] {
-  --page-accent: #14b8a6;
-}
-body[data-page='routes'] {
-  --page-accent: #14b8a6;
-}
-body[data-page='report'] {
-  --page-accent: #f59e0b;
-}
-body[data-page='admin'] {
-  --page-accent: #f59e0b;
-}
-

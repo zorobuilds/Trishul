@@ -7,6 +7,8 @@ import { ReportIncident } from './pages/ReportIncident';
 import { SafeRoutes } from './pages/SafeRoutes';
 import { AdminDashboard } from './pages/AdminDashboard';
 import { IncidentProvider } from './context/IncidentContext';
+import { LanguageProvider } from './context/LanguageContext';
+import LanguageSelector from './components/LanguageSelector';
 
 function AppContent() {
   const location = useLocation();
@@ -22,7 +24,7 @@ function AppContent() {
 
   return (
     <IncidentProvider>
-      <div className="flex flex-col min-h-screen bg-slate-950 text-slate-100 transition-colors duration-300">
+      <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300 relative">
         <Navbar />
         <main className="flex-grow">
           <Routes>
@@ -33,6 +35,9 @@ function AppContent() {
           </Routes>
         </main>
         <Footer />
+        
+        {/* Floating Draggable Language Selector Widget */}
+        <LanguageSelector mode="floating" />
       </div>
     </IncidentProvider>
   );
@@ -40,9 +45,11 @@ function AppContent() {
 
 export function App() {
   return (
-    <Router>
-      <AppContent />
-    </Router>
+    <LanguageProvider>
+      <Router>
+        <AppContent />
+      </Router>
+    </LanguageProvider>
   );
 }
 

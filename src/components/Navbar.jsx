@@ -2,49 +2,46 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   ShieldAlert,
-  Activity,
-  MapPin,
   Radio,
-  LifeBuoy,
-  FileText,
   Menu,
   X,
-  Globe,
   AlertTriangle
 } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
+import LanguageSelector from './LanguageSelector';
+import { useLanguage } from '../context/LanguageContext';
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [lang, setLang] = useState('EN');
   const location = useLocation();
+  const { t } = useLanguage();
 
   const navLinks = [
-    { name: 'Live Overview', path: '/' },
-    { name: 'Citizen & Field Report', path: '/report' },
-    { name: 'Roads & Safe Route', path: '/safe-routes' },
-    { name: 'Command Center (Admin)', path: '/admin' },
+    { name: t('liveOverview'), path: '/' },
+    { name: t('fieldReport'), path: '/report' },
+    { name: t('safeRoutes'), path: '/safe-routes' },
+    { name: t('commandAdmin'), path: '/admin' },
   ];
-
-  const languages = ['EN', 'HI (हिंदी)', 'AS (অসমীয়া)', 'BN (বাংলা)', 'MZ (Mizo)'];
 
   const isActive = (path) => location.pathname === path;
 
   return (
-    <header className="sticky top-0 z-50 bg-primary/80 backdrop-blur-md border-b border-primary/30">
-      {/* Emergency Alert Marquee Header */}
-      <div className="bg-red-950/60 border-b border-red-800/40 px-4 py-1 text-xs text-red-300 flex items-center justify-between overflow-hidden">
+    <header className="sticky top-0 z-50 bg-white/95 dark:bg-slate-950/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors duration-200">
+      {/* Top Emergency Advisory Marquee Bar */}
+      <div className="bg-red-100 dark:bg-red-950/80 border-b border-red-200 dark:border-red-800/50 px-4 py-1.5 text-xs text-red-950 dark:text-red-200 flex items-center justify-between overflow-hidden">
         <div className="flex items-center gap-2 font-medium">
-          <span className="flex h-2 w-2 relative">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
+          <span className="flex h-2.5 w-2.5 relative">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-600" />
           </span>
-          <span className="font-bold tracking-wider uppercase text-red-200">LIVE ADVISORY:</span>
-          <span>Heavy rainfall alert in East Sikkim & Dima Hasao (Assam). High landslide susceptibility on NH-29.</span>
+          <span className="font-extrabold tracking-wider uppercase text-red-700 dark:text-red-200">{t('liveAdvisory')}</span>
+          <span className="font-semibold text-slate-800 dark:text-red-100 truncate max-w-[280px] sm:max-w-none">
+            {t('advisoryText')}
+          </span>
         </div>
-        <div className="hidden md:flex items-center gap-3 text-red-400">
-          <span className="flex items-center gap-1 font-mono">
-            <Radio className="w-3.5 h-3.5 animate-pulse text-red-400" /> NER Sensor Mesh: ACTIVE
+        <div className="hidden md:flex items-center gap-3 text-red-800 dark:text-red-300 font-bold">
+          <span className="flex items-center gap-1.5 font-mono text-[11px]">
+            <Radio className="w-3.5 h-3.5 animate-pulse text-red-600 dark:text-red-400" /> {t('sensorMesh')}
           </span>
         </div>
       </div>
@@ -53,28 +50,28 @@ export const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-blue-500 flex items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform">
+            <div className="w-10 h-10 rounded-xl bg-teal-600 dark:bg-gradient-to-tr dark:from-teal-600 dark:to-cyan-500 flex items-center justify-center shadow-md shadow-teal-600/20 group-hover:scale-105 transition-transform">
               <ShieldAlert className="w-6 h-6 text-white" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-xl font-black tracking-tight text-white">TRISHUL</span>
-                <span className="text-[10px] px-1.5 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-mono font-semibold">NER AI</span>
+                <span className="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white">TRISHUL</span>
+                <span className="text-[10px] px-1.5 py-0.5 rounded bg-teal-50 text-teal-800 border border-teal-200 dark:bg-teal-500/10 dark:text-teal-400 dark:border-teal-500/30 font-mono font-bold">NER AI</span>
               </div>
-              <p className="text-[10px] text-slate-400 leading-tight">Landslide & Disaster Early Warning System</p>
+              <p className="text-[11px] text-slate-600 dark:text-slate-400 font-medium leading-tight">Landslide & Disaster Early Warning System</p>
             </div>
           </Link>
 
           {/* Desktop Nav Links */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden md:flex items-center gap-1.5">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-all ${
                   isActive(link.path)
-                    ? 'bg-primary/10 text-primary border border-primary/20'
-                    : 'text-slate-300 hover:text-white hover:bg-slate-900'
+                    ? 'bg-teal-50 text-teal-800 border border-teal-300 dark:bg-teal-500/10 dark:text-teal-300 dark:border-teal-500/30 font-bold shadow-sm'
+                    : 'text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-900'
                 }`}
               >
                 {link.name}
@@ -85,46 +82,35 @@ export const Navbar = () => {
           {/* Right Action Utilities */}
           <div className="hidden md:flex items-center gap-3">
             {/* Language Selector */}
-            <div className="relative group">
-              <button className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 bg-slate-900 border border-slate-800 hover:border-slate-700">
-                <Globe className="w-3.5 h-3.5 text-cyan-400" />
-                <span>{lang}</span>
-              </button>
-              <div className="absolute right-0 mt-1 w-32 bg-slate-900 border border-slate-800 rounded-lg shadow-xl py-1 hidden group-hover:block z-50">
-                {languages.map((lang) => (
-                  <button
-                    key={lang}
-                    onClick={() => setLang(lang.split(' ')[0])}
-                    className="w-full text-left px-3 py-1.5 text-xs text-slate-300 hover:bg-slate-800 hover:text-cyan-400"
-                  >
-                    {lang}
-                  </button>
-                ))}
-              </div>
-            </div>
+            <LanguageSelector mode="header" />
+
             {/* Theme Toggle */}
             <ThemeToggle />
+
             {/* Quick SOS Trigger */}
             <Link
               to="/report?sos=true"
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold bg-red-600 hover:bg-red-500 text-white shadow-lg shadow-red-600/30 transition-all hover:scale-105"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-extrabold bg-red-600 hover:bg-red-700 text-white shadow-md shadow-red-600/25 transition-all hover:scale-105"
             >
               <AlertTriangle className="w-3.5 h-3.5 animate-bounce" />
-              <span>SOS DISTRESS</span>
+              <span>{t('sosDistress')}</span>
             </Link>
           </div>
 
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center gap-2">
+            <ThemeToggle />
             <Link
               to="/report?sos=true"
-              className="px-2.5 py-1 text-xs font-bold bg-red-600 text-white rounded-md"
+              className="px-3 py-1.5 text-xs font-extrabold bg-red-600 text-white rounded-lg shadow-md"
             >
               SOS
             </Link>
             <button
+              type="button"
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-900 focus:outline-none"
+              className="p-2 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-900 focus:outline-none"
+              aria-label="Toggle Navigation Menu"
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -134,34 +120,24 @@ export const Navbar = () => {
 
       {/* Mobile Menu Dropdown */}
       {isOpen && (
-        <div className="md:hidden bg-slate-950 border-b border-slate-800 px-4 pt-2 pb-4 space-y-1">
+        <div className="md:hidden bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 px-4 pt-2 pb-4 space-y-2 animate-fadeIn shadow-lg">
           {navLinks.map((link) => (
             <Link
               key={link.path}
               to={link.path}
               onClick={() => setIsOpen(false)}
-              className={`block px-3 py-2 rounded-lg text-base font-medium ${
+              className={`block px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
                 isActive(link.path)
-                  ? 'bg-primary/10 text-primary border border-primary/20'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-900'
+                  ? 'bg-teal-50 text-teal-800 border border-teal-300 dark:bg-teal-950/40 dark:text-teal-300 dark:border-teal-500/30 font-bold'
+                  : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-900'
               }`}
             >
               {link.name}
             </Link>
           ))}
-          <div className="pt-2 flex items-center justify-between border-t border-slate-800">
-            <span className="text-xs text-slate-400">Language:</span>
-            <div className="flex gap-2">
-              {['EN', 'HI', 'AS', 'BN'].map((l) => (
-                <button
-                  key={l}
-                  onClick={() => setLang(l)}
-                  className={`px-2 py-1 text-xs rounded ${lang === l ? 'bg-primary text-white' : 'bg-slate-900 text-slate-300'}`}
-                >
-                  {l}
-                </button>
-              ))}
-            </div>
+          <div className="pt-3 flex items-center justify-between border-t border-slate-200 dark:border-slate-800">
+            <span className="text-xs text-slate-600 dark:text-slate-400 font-bold">Select Language:</span>
+            <LanguageSelector mode="header" />
           </div>
         </div>
       )}

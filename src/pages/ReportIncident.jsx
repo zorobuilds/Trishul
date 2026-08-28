@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { 
   Camera, 
   MapPin, 
-  AlertTriangle, 
   Wifi, 
   WifiOff, 
   Send, 
   CheckCircle, 
-  Upload, 
   RefreshCw, 
   ShieldAlert, 
-  PhoneCall, 
   FileText, 
   Layers, 
   Navigation,
@@ -20,8 +17,10 @@ import {
 } from 'lucide-react';
 import { useIncidents } from '../context/IncidentContext';
 import { NER_STATES_DATA } from '../data/nerData';
+import { useLanguage } from '../context/LanguageContext';
 
 export const ReportIncident = () => {
+  const { t } = useLanguage();
   const [searchParams] = useSearchParams();
   const isSosMode = searchParams.get('sos') === 'true';
 
@@ -126,24 +125,24 @@ export const ReportIncident = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 transition-colors duration-200">
       
       {/* Top Banner: Network & Offline Status Simulator */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-md">
         <div className="flex items-center gap-3">
-          <div className={`p-2.5 rounded-xl border ${isOnline ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' : 'bg-amber-500/10 border-amber-500/30 text-amber-400'}`}>
+          <div className={`p-2.5 rounded-xl border ${isOnline ? 'bg-emerald-100 dark:bg-emerald-500/10 border-emerald-300 dark:border-emerald-500/30 text-emerald-800 dark:text-emerald-400' : 'bg-amber-100 dark:bg-amber-500/10 border-amber-300 dark:border-amber-500/30 text-amber-900 dark:text-amber-400'}`}>
             {isOnline ? <Wifi className="w-5 h-5" /> : <WifiOff className="w-5 h-5 animate-pulse" />}
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-bold text-white text-sm">
+              <span className="font-extrabold text-slate-900 dark:text-white text-sm">
                 Connectivity Mode: {isOnline ? 'Connected to Disaster Mesh' : 'Zero-Network Offline Mode'}
               </span>
-              <span className={`text-[10px] px-2 py-0.5 rounded font-mono font-bold ${isOnline ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300'}`}>
+              <span className={`text-[10px] px-2 py-0.5 rounded font-mono font-bold ${isOnline ? 'bg-emerald-100 text-emerald-900 dark:bg-emerald-500/20 dark:text-emerald-300' : 'bg-amber-100 text-amber-900 dark:bg-amber-500/20 dark:text-amber-300'}`}>
                 {isOnline ? 'ONLINE' : 'OFFLINE (PWA CACHED)'}
               </span>
             </div>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">
               {isOnline
                 ? 'Reports are broadcast immediately to NDRF/SDRF Command Hub.'
                 : 'Reports are stored in your device storage and will automatically sync when network returns.'}
@@ -155,8 +154,9 @@ export const ReportIncident = () => {
         <div className="flex items-center gap-2">
           {offlineQueue.length > 0 && isOnline && (
             <button
+              type="button"
               onClick={handleManualSync}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs shadow-md transition-all animate-bounce"
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-bold text-xs shadow-md transition-all animate-bounce cursor-pointer"
             >
               <RefreshCw className="w-3.5 h-3.5" />
               <span>Sync {offlineQueue.length} Queued Drafts</span>
@@ -164,8 +164,9 @@ export const ReportIncident = () => {
           )}
 
           <button
+            type="button"
             onClick={() => setIsOnline(!isOnline)}
-            className="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-colors font-mono"
+            className="text-xs px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-slate-300 border border-slate-300 dark:border-slate-700 transition-colors font-mono font-bold cursor-pointer"
             title="Toggle to test offline-first PWA caching for remote hill areas"
           >
             Simulate: {isOnline ? 'Go Offline' : 'Go Online'}
@@ -174,8 +175,8 @@ export const ReportIncident = () => {
       </div>
 
       {syncStatusMsg && (
-        <div className="p-3 bg-emerald-950/60 border border-emerald-500/40 rounded-xl text-xs text-emerald-300 flex items-center gap-2">
-          <CheckCircle className="w-4 h-4 text-emerald-400" />
+        <div className="p-3.5 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-500/40 rounded-xl text-xs text-emerald-900 dark:text-emerald-300 flex items-center gap-2 font-bold">
+          <CheckCircle className="w-4 h-4 text-emerald-700 dark:text-emerald-400" />
           <span>{syncStatusMsg}</span>
         </div>
       )}
@@ -184,36 +185,36 @@ export const ReportIncident = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
         {/* Left Column: The Report Submission Form */}
-        <div className="lg:col-span-7 bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl relative">
+        <div className="lg:col-span-7 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-xl relative">
           
           {isSosMode && (
-            <div className="mb-6 p-4 bg-red-950/60 border border-red-500/60 rounded-xl flex items-center gap-3 text-red-200 animate-pulse">
-              <ShieldAlert className="w-6 h-6 text-red-400 flex-shrink-0" />
+            <div className="mb-6 p-4 bg-red-100 dark:bg-red-950/60 border border-red-300 dark:border-red-500/60 rounded-xl flex items-center gap-3 text-red-950 dark:text-red-200 animate-pulse">
+              <ShieldAlert className="w-6 h-6 text-red-600 dark:text-red-400 flex-shrink-0" />
               <div>
-                <h4 className="font-bold text-sm">EMERGENCY SOS MODE ACTIVE</h4>
-                <p className="text-xs text-red-300">Your GPS coordinates and distress broadcast will be prioritized to district emergency response units.</p>
+                <h4 className="font-extrabold text-sm">{t('sosDistress')} MODE ACTIVE</h4>
+                <p className="text-xs text-red-800 dark:text-red-300 font-medium">Your GPS coordinates and distress broadcast will be prioritized to district emergency response units.</p>
               </div>
             </div>
           )}
 
           <div className="mb-6">
-            <h2 className="text-2xl font-black text-white flex items-center gap-2">
-              <FileText className="w-6 h-6 text-accent" />
+            <h2 className="text-2xl font-black text-slate-900 dark:text-white flex items-center gap-2">
+              <FileText className="w-6 h-6 text-amber-600 dark:text-amber-500" />
               Field Incident & Hazard Reporter
             </h2>
-            <p className="text-xs text-slate-400 mt-1">
+            <p className="text-xs text-slate-700 dark:text-slate-400 mt-1 font-medium">
               Geo-tag slope fractures, active rockfalls, structural cracks, or blocked mountain corridors.
             </p>
           </div>
 
           {/* Submission Success Alert */}
           {submittedResult && (
-            <div className={`mb-6 p-4 rounded-xl border ${submittedResult.mode === 'ONLINE' ? 'bg-emerald-950/50 border-emerald-500/50 text-emerald-200' : 'bg-amber-950/50 border-amber-500/50 text-amber-200'}`}>
+            <div className={`mb-6 p-4 rounded-xl border ${submittedResult.mode === 'ONLINE' ? 'bg-emerald-50 dark:bg-emerald-950/50 border-emerald-300 dark:border-emerald-500/50 text-emerald-900 dark:text-emerald-200' : 'bg-amber-50 dark:bg-amber-950/50 border-amber-300 dark:border-amber-500/50 text-amber-950 dark:text-amber-200'}`}>
               <div className="flex items-center gap-2 font-bold text-sm mb-1">
-                <CheckCircle className="w-5 h-5 text-accent" />
+                <CheckCircle className="w-5 h-5 text-amber-600 dark:text-amber-500" />
                 {submittedResult.mode === 'ONLINE' ? 'Incident Transmitted Successfully!' : 'Saved in Local Offline Vault!'}
               </div>
-              <p className="text-xs opacity-90">
+              <p className="text-xs opacity-90 font-medium">
                 {submittedResult.mode === 'ONLINE'
                   ? 'Your geo-tagged report is now visible on the Admin GIS Tactical Map (ID: ' + submittedResult.data.id + ').'
                   : 'No active connection. Report safely queued on your device and will broadcast automatically once signal recovers.'}
@@ -226,23 +227,23 @@ export const ReportIncident = () => {
             {/* Title & Category */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Incident Headline *</label>
+                <label className="block text-xs font-bold text-slate-900 dark:text-slate-300 mb-1">Incident Headline *</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Major rockfall on NH-10 near KM 32"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500 font-medium"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Hazard Category</label>
+                <label className="block text-xs font-bold text-slate-900 dark:text-slate-300 mb-1">Hazard Category</label>
                 <select
                   value={formData.category}
                   onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500 font-medium"
                 >
                   <option value="LANDSLIDE">🔴 Active Landslide</option>
                   <option value="ROAD_BLOCKAGE">🚧 Highway / Road Blockage</option>
@@ -257,11 +258,11 @@ export const ReportIncident = () => {
             {/* Severity & State */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Perceived Threat Severity</label>
+                <label className="block text-xs font-bold text-slate-900 dark:text-slate-300 mb-1">Perceived Threat Severity</label>
                 <select
                   value={formData.severity}
                   onChange={(e) => setFormData({ ...formData, severity: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500 font-medium"
                 >
                   <option value="CRITICAL">Critical (Life / Route in Immediate Hazard)</option>
                   <option value="HIGH">High (Major Disruption / Fast Movement)</option>
@@ -271,11 +272,11 @@ export const ReportIncident = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">NER State</label>
+                <label className="block text-xs font-bold text-slate-900 dark:text-slate-300 mb-1">NER State</label>
                 <select
                   value={formData.state}
                   onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500 font-medium"
                 >
                   {NER_STATES_DATA.map((st) => (
                     <option key={st.id} value={st.name}>{st.name}</option>
@@ -285,16 +286,16 @@ export const ReportIncident = () => {
             </div>
 
             {/* Location & GPS Coordinates */}
-            <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
+            <div className="bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
-                  <Compass className="w-4 h-4 text-accent" /> Geolocation & Landmark
+                <span className="text-xs font-black text-slate-900 dark:text-slate-200 flex items-center gap-1.5">
+                  <Compass className="w-4 h-4 text-amber-600 dark:text-amber-500" /> Geolocation & Landmark
                 </span>
                 <button
                   type="button"
                   onClick={handleFetchLocation}
                   disabled={geoLocating}
-                  className="text-xs text-accent hover:text-accent-light font-semibold flex items-center gap-1 bg-slate-900 px-2.5 py-1 rounded-lg border border-slate-800"
+                  className="text-xs text-amber-700 dark:text-amber-400 hover:text-amber-800 font-bold flex items-center gap-1 bg-white dark:bg-slate-900 px-2.5 py-1 rounded-lg border border-slate-300 dark:border-slate-800 shadow-sm cursor-pointer"
                 >
                   <Navigation className={`w-3.5 h-3.5 ${geoLocating ? 'animate-spin' : ''}`} />
                   <span>{geoLocating ? 'Acquiring GPS...' : 'Re-acquire GPS'}</span>
@@ -307,64 +308,64 @@ export const ReportIncident = () => {
                   placeholder="Specific Landmark / Milestone (e.g. Mile 29, NH-10 Singtam)"
                   value={formData.locationName}
                   onChange={(e) => setFormData({ ...formData, locationName: e.target.value })}
-                  className="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
+                  className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500 font-medium"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3 text-xs">
                 <div>
-                  <label className="text-[11px] text-slate-400 block mb-0.5">Latitude (°N)</label>
+                  <label className="text-[11px] text-slate-700 dark:text-slate-400 font-bold block mb-0.5">Latitude (°N)</label>
                   <input
                     type="number"
                     step="0.00001"
                     value={formData.lat}
                     onChange={(e) => setFormData({ ...formData, lat: parseFloat(e.target.value) })}
-                    className="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5 text-white font-mono focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
+                    className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-lg px-3 py-1.5 text-slate-900 dark:text-white font-mono font-bold focus:outline-none focus:ring-2 focus:ring-teal-500"
                   />
                 </div>
                 <div>
-                  <label className="text-[11px] text-slate-400 block mb-0.5">Longitude (°E)</label>
+                  <label className="text-[11px] text-slate-700 dark:text-slate-400 font-bold block mb-0.5">Longitude (°E)</label>
                   <input
                     type="number"
                     step="0.00001"
                     value={formData.lng}
                     onChange={(e) => setFormData({ ...formData, lng: parseFloat(e.target.value) })}
-                    className="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5 text-white font-mono focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
+                    className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-lg px-3 py-1.5 text-slate-900 dark:text-white font-mono font-bold focus:outline-none focus:ring-2 focus:ring-teal-500"
                   />
                 </div>
               </div>
-              {geoError && <p className="text-[11px] text-amber-400 font-mono">{geoError}</p>}
+              {geoError && <p className="text-[11px] text-amber-700 dark:text-amber-400 font-mono font-bold">{geoError}</p>}
             </div>
 
             {/* Description */}
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Incident Details & Ground Observation *</label>
+              <label className="block text-xs font-bold text-slate-900 dark:text-slate-300 mb-1">Incident Details & Ground Observation *</label>
               <textarea
                 rows={3}
                 required
                 placeholder="Describe size of boulder/debris, number of vehicles stranded, continuous rainfall intensity, or slope crack width..."
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl p-3 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500 font-medium"
               />
             </div>
 
             {/* Photo Upload & Preview */}
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Attach Geo-Tagged Evidence Photo</label>
+              <label className="block text-xs font-bold text-slate-900 dark:text-slate-300 mb-1">Attach Geo-Tagged Evidence Photo</label>
               <div className="flex items-center gap-4">
-                <label className="cursor-pointer flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-950 border border-dashed border-slate-700 hover:border-accent text-slate-300 text-xs font-medium transition-colors">
-                  <Camera className="w-4 h-4 text-accent" />
+                <label className="cursor-pointer flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-dashed border-slate-300 dark:border-slate-700 hover:border-teal-500 text-slate-800 dark:text-slate-300 text-xs font-bold transition-colors shadow-sm">
+                  <Camera className="w-4 h-4 text-amber-600 dark:text-amber-500" />
                   <span>Upload / Snap Photo</span>
                   <input type="file" accept="image/*" capture="environment" onChange={handleImageChange} className="hidden" />
                 </label>
                 {imagePreview && (
                   <div className="relative">
-                    <img src={imagePreview} alt="Evidence Preview" className="w-12 h-12 rounded-lg object-cover border border-accent" />
+                    <img src={imagePreview} alt="Evidence Preview" className="w-12 h-12 rounded-lg object-cover border border-amber-500" />
                     <button
                       type="button"
                       onClick={() => { setImagePreview(null); setFormData({ ...formData, imageUrl: null }); }}
-                      className="absolute -top-1.5 -right-1.5 bg-red-600 text-white rounded-full w-4 h-4 text-[10px] flex items-center justify-center"
+                      className="absolute -top-1.5 -right-1.5 bg-red-600 text-white rounded-full w-4 h-4 text-[10px] flex items-center justify-center font-black cursor-pointer"
                     >
                       ×
                     </button>
@@ -376,23 +377,23 @@ export const ReportIncident = () => {
             {/* Reporter Contact Info */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
               <div>
-                <label className="block text-xs text-slate-400 mb-1">Your Name / Designation</label>
+                <label className="block text-xs text-slate-800 dark:text-slate-400 font-bold mb-1">Your Name / Designation</label>
                 <input
                   type="text"
                   placeholder="e.g. Tashi Bhutia / Local Citizen"
                   value={formData.reporterName}
                   onChange={(e) => setFormData({ ...formData, reporterName: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500 font-medium"
                 />
               </div>
               <div>
-                <label className="block text-xs text-slate-400 mb-1">Mobile Contact (for Rescue Verification)</label>
+                <label className="block text-xs text-slate-800 dark:text-slate-400 font-bold mb-1">Mobile Contact (for Rescue Verification)</label>
                 <input
                   type="text"
                   placeholder="+91-XXXXX-XXXXX"
                   value={formData.reporterContact}
                   onChange={(e) => setFormData({ ...formData, reporterContact: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white font-mono focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white font-mono font-bold focus:outline-none focus:ring-2 focus:ring-teal-500"
                 />
               </div>
             </div>
@@ -401,10 +402,10 @@ export const ReportIncident = () => {
             <div className="pt-3">
               <button
                 type="submit"
-                className={`w-full py-3 rounded-xl font-bold text-sm shadow-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.01] ${
+                className={`w-full py-3.5 rounded-xl font-black text-sm shadow-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.01] cursor-pointer ${
                   isSosMode
-                    ? 'bg-red-600 hover:bg-red-500 text-white shadow-red-600/30'
-                    : 'bg-accent hover:bg-accent-dark text-slate-950 font-bold shadow-accent/25'
+                    ? 'bg-red-600 hover:bg-red-700 text-white shadow-red-600/30'
+                    : 'bg-amber-600 hover:bg-amber-700 text-white shadow-amber-600/25'
                 }`}
               >
                 <Send className="w-4 h-4" />
@@ -424,55 +425,55 @@ export const ReportIncident = () => {
         {/* Right Column: Active Feed of Citizen & Field Submissions */}
         <div className="lg:col-span-5 space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="font-bold text-white text-base flex items-center gap-2">
-              <Layers className="w-4 h-4 text-accent" />
+            <h3 className="font-extrabold text-slate-900 dark:text-white text-base flex items-center gap-2">
+              <Layers className="w-4 h-4 text-amber-600 dark:text-amber-500" />
               Live Ground Truth Feed ({incidents.length})
             </h3>
-            <span className="text-xs text-slate-400 font-mono">Realtime Mesh</span>
+            <span className="text-xs text-slate-700 dark:text-slate-400 font-mono font-bold">Realtime Mesh</span>
           </div>
 
           <div className="space-y-3 max-h-[750px] overflow-y-auto pr-1">
             {incidents.map((rep) => (
               <div
                 key={rep.id}
-                className={`bg-slate-900/90 border rounded-xl p-4 space-y-2.5 transition-all ${
-                  rep.severity === 'CRITICAL' ? 'border-red-500/40 bg-red-950/10' : 'border-slate-800 hover:border-slate-700'
+                className={`bg-white dark:bg-slate-900 border rounded-xl p-4 space-y-2.5 transition-all shadow-sm ${
+                  rep.severity === 'CRITICAL' ? 'border-red-300 dark:border-red-500/40 bg-red-50/60 dark:bg-red-950/10' : 'border-slate-200 dark:border-slate-800 hover:border-teal-400'
                 }`}
               >
                 <div className="flex items-start justify-between gap-2">
                   <div>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded font-bold uppercase bg-slate-800 text-accent-light border border-slate-700 mr-2">
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded font-extrabold uppercase bg-slate-100 dark:bg-slate-800 text-amber-800 dark:text-amber-300 border border-slate-300 dark:border-slate-700 mr-2">
                       {rep.category.replace('_', ' ')}
                     </span>
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${
-                      rep.severity === 'CRITICAL' ? 'bg-red-500/20 text-red-400' : 'bg-amber-500/20 text-amber-400'
+                    <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded ${
+                      rep.severity === 'CRITICAL' ? 'bg-red-100 text-red-900 dark:bg-red-500/20 dark:text-red-400' : 'bg-amber-100 text-amber-900 dark:bg-amber-500/20 dark:text-amber-400'
                     }`}>
                       {rep.severity}
                     </span>
                   </div>
-                  <div className="text-[10px] text-slate-500 flex items-center gap-1 font-mono">
+                  <div className="text-[10px] text-slate-600 dark:text-slate-400 flex items-center gap-1 font-mono font-bold">
                     <Clock className="w-3 h-3" />
                     <span>{new Date(rep.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                   </div>
                 </div>
 
-                <h4 className="text-sm font-bold text-white leading-snug">{rep.title}</h4>
-                <p className="text-xs text-slate-300 leading-relaxed">{rep.description}</p>
+                <h4 className="text-sm font-black text-slate-900 dark:text-white leading-snug">{rep.title}</h4>
+                <p className="text-xs text-slate-800 dark:text-slate-300 leading-relaxed font-medium">{rep.description}</p>
 
                 {rep.imageUrl && (
                   <div className="pt-1">
-                    <img src={rep.imageUrl} alt="Incident Evidence" className="w-full h-32 object-cover rounded-lg border border-slate-800" />
+                    <img src={rep.imageUrl} alt="Incident Evidence" className="w-full h-32 object-cover rounded-lg border border-slate-200 dark:border-slate-800" />
                   </div>
                 )}
 
-                <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
-                  <span className="flex items-center gap-1 font-mono text-accent">
+                <div className="pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-[11px]">
+                  <span className="flex items-center gap-1 font-mono text-amber-700 dark:text-amber-400 font-extrabold">
                     <MapPin className="w-3 h-3" /> {rep.locationName || `${rep.lat}, ${rep.lng}`}
                   </span>
-                  <span className={`font-mono text-[10px] px-1.5 py-0.2 rounded border ${
+                  <span className={`font-mono text-[10px] px-1.5 py-0.2 rounded border font-bold ${
                     rep.status === 'VERIFIED'
-                      ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
-                      : 'bg-yellow-500/10 text-yellow-400 border-yellow-500/30'
+                      ? 'bg-emerald-100 text-emerald-900 border-emerald-300 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30'
+                      : 'bg-yellow-100 text-yellow-900 border-yellow-300 dark:bg-yellow-500/10 dark:text-yellow-400 dark:border-yellow-500/30'
                   }`}>
                     {rep.status}
                   </span>

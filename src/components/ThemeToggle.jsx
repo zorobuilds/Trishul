@@ -5,7 +5,6 @@ import { Sun, Moon } from 'lucide-react';
 export default function ThemeToggle() {
   const [isDark, setIsDark] = useState(() => {
     const saved = localStorage.getItem('theme');
-    // Default to dark mode if not specified
     if (saved) return saved === 'dark';
     return true;
   });
@@ -30,20 +29,18 @@ export default function ThemeToggle() {
       type="button"
       className={`p-2 rounded-xl border transition-all flex items-center justify-center cursor-pointer shadow-sm ${
         isDark
-          ? 'bg-slate-900/90 border-slate-700 hover:border-accent text-accent hover:bg-slate-800'
-          : 'bg-white/90 border-teal-200 hover:border-teal-400 text-teal-900 hover:bg-teal-50'
+          ? 'bg-slate-900/90 border-slate-700 hover:border-amber-400 text-amber-400 hover:bg-slate-800'
+          : 'bg-slate-100 border-slate-300 hover:border-teal-500 text-teal-700 hover:bg-teal-50'
       }`}
       onClick={() => setIsDark((prev) => !prev)}
       aria-label="Toggle theme"
       title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
     >
       {isDark ? (
-        <Sun className="w-4 h-4 text-accent transition-transform hover:rotate-45" />
+        <Sun className="w-4 h-4 text-amber-400 transition-transform hover:rotate-45" />
       ) : (
-        <Moon className="w-4 h-4 text-teal-800 transition-transform hover:-rotate-12" />
+        <Moon className="w-4 h-4 text-teal-700 transition-transform hover:-rotate-12" />
       )}
     </button>
   );
 }
-
-

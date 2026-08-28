@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Circle, LayersControl } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-// Fix default leaflet marker icon issue in webpack/vite
+// Fix default leaflet marker icon issue in vite
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
@@ -12,7 +12,7 @@ L.Icon.Default.mergeOptions({
 });
 
 // Custom colored SVG pin generator
-const createSvgIcon = (color, text = '') => {
+const createSvgIcon = (color) => {
   const svgString = `
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">
       <path fill="${color}" stroke="#ffffff" stroke-width="1.5" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
@@ -39,24 +39,24 @@ export const TacticalGisMap = ({ incidents, sensors, assets, activeLayers, onSel
   const defaultZoom = 7;
 
   return (
-    <div className="relative w-full h-[520px] rounded-2xl overflow-hidden border border-slate-800 shadow-2xl z-0">
+    <div className="relative w-full h-[520px] rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-2xl z-0">
       
       {/* Map Legend Overlay */}
-      <div className="absolute bottom-4 left-4 z-[1000] bg-slate-950/90 backdrop-blur-md border border-slate-800 p-3 rounded-xl shadow-xl text-[11px] space-y-1.5 pointer-events-auto">
-        <span className="font-bold text-white uppercase text-[10px] tracking-wider block border-b border-slate-800 pb-1">
+      <div className="absolute bottom-4 left-4 z-[1000] bg-white/95 dark:bg-slate-950/95 backdrop-blur-md border border-slate-200 dark:border-slate-800 p-3.5 rounded-xl shadow-xl text-[11px] space-y-1.5 pointer-events-auto">
+        <span className="font-bold text-slate-900 dark:text-white uppercase text-[10px] tracking-wider block border-b border-slate-200 dark:border-slate-800 pb-1">
           Tactical Map Legend
         </span>
         <div className="flex items-center gap-2">
           <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse"></span>
-          <span className="text-slate-300">Critical Landslide Incident</span>
+          <span className="text-slate-700 dark:text-slate-300 font-medium">Critical Landslide Incident</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-primary"></span>
-          <span className="text-slate-300">IoT Telemetry Station</span>
+          <span className="w-2.5 h-2.5 rounded-full bg-teal-500"></span>
+          <span className="text-slate-700 dark:text-slate-300 font-medium">IoT Telemetry Station</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
-          <span className="text-slate-300">Disaster Response Asset / BRO</span>
+          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+          <span className="text-slate-700 dark:text-slate-300 font-medium">Disaster Response Asset / BRO</span>
         </div>
       </div>
 
@@ -67,7 +67,7 @@ export const TacticalGisMap = ({ incidents, sensors, assets, activeLayers, onSel
         className="w-full h-full"
       >
         <LayersControl position="topright">
-          {/* Base Layer 1: OpenStreetMap Standard (100% Free, No API key) */}
+          {/* Base Layer 1: OpenStreetMap Standard */}
           <LayersControl.BaseLayer checked name="OpenStreetMap Standard">
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -75,18 +75,18 @@ export const TacticalGisMap = ({ incidents, sensors, assets, activeLayers, onSel
             />
           </LayersControl.BaseLayer>
 
-          {/* Base Layer 2: Topographic Relief (OpenTopoMap, Free) */}
+          {/* Base Layer 2: Topographic Relief */}
           <LayersControl.BaseLayer name="Topographic Relief">
             <TileLayer
-              attribution='&copy; <a href="https://opentopomap.org">OpenTopoMap</a> (&copy; <a href="https://openstreetmap.org/copyright">OSM</a>)'
+              attribution='&copy; <a href="https://opentopomap.org">OpenTopoMap</a>'
               url="https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"
             />
           </LayersControl.BaseLayer>
 
-          {/* Base Layer 3: Esri Satellite Imagery (Free, No API key) */}
+          {/* Base Layer 3: Esri Satellite Imagery */}
           <LayersControl.BaseLayer name="Satellite Imagery">
             <TileLayer
-              attribution='Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+              attribution='Tiles &copy; Esri &mdash; Source: Esri, GIS User Community'
               url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
             />
           </LayersControl.BaseLayer>
@@ -141,7 +141,7 @@ export const TacticalGisMap = ({ incidents, sensors, assets, activeLayers, onSel
           >
             <Popup className="custom-popup">
               <div className="p-1 space-y-1 text-xs">
-                <span className="font-mono text-cyan-700 font-bold block">IoT TELEMETRY STATION</span>
+                <span className="font-mono text-teal-700 font-bold block">IoT TELEMETRY STATION</span>
                 <h4 className="font-bold text-slate-900">{sen.name}</h4>
                 <div className="text-slate-700 text-[11px] space-y-0.5 pt-1 font-mono">
                   <div>• Pore Pressure: <strong>{sen.porePressureKPa} kPa</strong></div>
