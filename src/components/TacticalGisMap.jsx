@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Circle, LayersControl } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -30,7 +30,7 @@ const createSvgIcon = (color, text = '') => {
 
 const incidentIconCritical = createSvgIcon('#ef4444');
 const incidentIconWarning = createSvgIcon('#f59e0b');
-const sensorIcon = createSvgIcon('#06b6d4');
+const sensorIcon = createSvgIcon('#14b8a6');
 const assetIcon = createSvgIcon('#10b981');
 
 export const TacticalGisMap = ({ incidents, sensors, assets, activeLayers, onSelectIncident }) => {
@@ -51,7 +51,7 @@ export const TacticalGisMap = ({ incidents, sensors, assets, activeLayers, onSel
           <span className="text-slate-300">Critical Landslide Incident</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+          <span className="w-2.5 h-2.5 rounded-full bg-primary"></span>
           <span className="text-slate-300">IoT Telemetry Station</span>
         </div>
         <div className="flex items-center gap-2">

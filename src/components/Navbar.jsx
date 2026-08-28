@@ -1,17 +1,18 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { 
-  ShieldAlert, 
-  Activity, 
-  MapPin, 
-  Radio, 
-  LifeBuoy, 
-  FileText, 
-  Menu, 
-  X, 
-  Globe, 
-  AlertTriangle 
+import {
+  ShieldAlert,
+  Activity,
+  MapPin,
+  Radio,
+  LifeBuoy,
+  FileText,
+  Menu,
+  X,
+  Globe,
+  AlertTriangle
 } from 'lucide-react';
+import ThemeToggle from './ThemeToggle';
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,29 +31,27 @@ export const Navbar = () => {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <header className="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800">
+    <header className="sticky top-0 z-50 bg-primary/80 backdrop-blur-md border-b border-primary/30">
       {/* Emergency Alert Marquee Header */}
       <div className="bg-red-950/60 border-b border-red-800/40 px-4 py-1 text-xs text-red-300 flex items-center justify-between overflow-hidden">
         <div className="flex items-center gap-2 font-medium">
           <span className="flex h-2 w-2 relative">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
           </span>
           <span className="font-bold tracking-wider uppercase text-red-200">LIVE ADVISORY:</span>
           <span>Heavy rainfall alert in East Sikkim & Dima Hasao (Assam). High landslide susceptibility on NH-29.</span>
         </div>
         <div className="hidden md:flex items-center gap-3 text-red-400">
           <span className="flex items-center gap-1 font-mono">
-            <Radio className="w-3 h-3 animate-pulse text-red-400" /> NER Sensor Mesh: ACTIVE
+            <Radio className="w-3.5 h-3.5 animate-pulse text-red-400" /> NER Sensor Mesh: ACTIVE
           </span>
         </div>
       </div>
-      {/* yha tk  tha upar ka red part jisme ball chamak rhi  hai red red warning wli */}
 
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          
-          {/* ye hai trishul ka logo jisse dabane se home path pai jave */}
+          {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-blue-500 flex items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform">
               <ShieldAlert className="w-6 h-6 text-white" />
@@ -66,7 +65,7 @@ export const Navbar = () => {
             </div>
           </Link>
 
-          {/* Desktop Nav Links , desktop ke liye alag se hai nav bar*/}
+          {/* Desktop Nav Links */}
           <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
               <Link
@@ -74,7 +73,7 @@ export const Navbar = () => {
                 to={link.path}
                 className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                   isActive(link.path)
-                    ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20'
+                    ? 'bg-primary/10 text-primary border border-primary/20'
                     : 'text-slate-300 hover:text-white hover:bg-slate-900'
                 }`}
               >
@@ -83,7 +82,7 @@ export const Navbar = () => {
             ))}
           </div>
 
-          {/* Right Action Utilities , esme bhi desktop or mobile ka alag alag*/}
+          {/* Right Action Utilities */}
           <div className="hidden md:flex items-center gap-3">
             {/* Language Selector */}
             <div className="relative group">
@@ -103,7 +102,8 @@ export const Navbar = () => {
                 ))}
               </div>
             </div>
-
+            {/* Theme Toggle */}
+            <ThemeToggle />
             {/* Quick SOS Trigger */}
             <Link
               to="/report?sos=true"
@@ -142,7 +142,7 @@ export const Navbar = () => {
               onClick={() => setIsOpen(false)}
               className={`block px-3 py-2 rounded-lg text-base font-medium ${
                 isActive(link.path)
-                  ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20'
+                  ? 'bg-primary/10 text-primary border border-primary/20'
                   : 'text-slate-300 hover:text-white hover:bg-slate-900'
               }`}
             >
@@ -156,7 +156,7 @@ export const Navbar = () => {
                 <button
                   key={l}
                   onClick={() => setLang(l)}
-                  className={`px-2 py-1 text-xs rounded ${lang === l ? 'bg-cyan-500 text-white' : 'bg-slate-900 text-slate-300'}`}
+                  className={`px-2 py-1 text-xs rounded ${lang === l ? 'bg-primary text-white' : 'bg-slate-900 text-slate-300'}`}
                 >
                   {l}
                 </button>

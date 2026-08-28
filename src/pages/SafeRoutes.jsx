@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Navigation, 
@@ -74,10 +74,10 @@ export const SafeRoutes = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
       
       {/* 1. Header Banner */}
-      <div className="bg-gradient-to-r from-slate-900 via-slate-900 to-slate-950 border border-slate-800 rounded-3xl p-6 sm:p-8 relative overflow-hidden shadow-2xl">
+      <div className="bg-gradient-to-r from-slate-900 via-slate-950 to-slate-950 border border-primary/20 rounded-3xl p-6 sm:p-8 relative overflow-hidden shadow-2xl">
         <div className="max-w-3xl space-y-3 relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-mono font-medium">
-            <Compass className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary-light text-xs font-mono font-medium">
+            <Compass className="w-3.5 h-3.5 text-primary" />
             <span>NER HIGHWAY PASSES & INTELLIGENT DETOUR ENGINE</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
@@ -90,9 +90,9 @@ export const SafeRoutes = () => {
       </div>
 
       {/* 2. Interactive AI Safe Route Calculator */}
-      <div className="bg-slate-900/90 border border-cyan-500/30 rounded-2xl p-6 shadow-xl relative overflow-hidden">
+      <div className="bg-slate-900/90 border border-primary/30 rounded-2xl p-6 shadow-xl relative overflow-hidden">
         <div className="flex items-center gap-2 mb-4">
-          <Sparkles className="w-5 h-5 text-cyan-400" />
+          <Sparkles className="w-5 h-5 text-primary" />
           <h2 className="text-lg font-bold text-white">AI Evacuation & Safe Bypass Route Finder</h2>
         </div>
 
@@ -100,13 +100,13 @@ export const SafeRoutes = () => {
           <div className="md:col-span-4">
             <label className="block text-xs font-semibold text-slate-400 mb-1">Starting Point (Origin)</label>
             <div className="relative">
-              <MapPin className="w-4 h-4 text-cyan-400 absolute left-3 top-3" />
+              <MapPin className="w-4 h-4 text-primary absolute left-3 top-3" />
               <input
                 type="text"
                 required
                 value={origin}
                 onChange={(e) => setOrigin(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-3 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-500 font-medium"
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-3 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary font-medium"
               />
             </div>
           </div>
@@ -114,13 +114,13 @@ export const SafeRoutes = () => {
           <div className="md:col-span-4">
             <label className="block text-xs font-semibold text-slate-400 mb-1">Destination in NER</label>
             <div className="relative">
-              <Navigation className="w-4 h-4 text-emerald-400 absolute left-3 top-3" />
+              <Navigation className="w-4 h-4 text-accent absolute left-3 top-3" />
               <input
                 type="text"
                 required
                 value={destination}
                 onChange={(e) => setDestination(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-3 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-500 font-medium"
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-3 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary font-medium"
               />
             </div>
           </div>
@@ -129,7 +129,7 @@ export const SafeRoutes = () => {
             <button
               type="submit"
               disabled={isCalculating}
-              className="w-full py-2.5 px-4 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-sm rounded-xl shadow-lg shadow-cyan-500/20 transition-all flex items-center justify-center gap-2"
+              className="w-full py-2.5 px-4 bg-gradient-to-r from-primary to-accent hover:opacity-95 text-slate-950 font-bold text-sm rounded-xl shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2"
             >
               <Navigation className={`w-4 h-4 ${isCalculating ? 'animate-spin' : ''}`} />
               <span>{isCalculating ? 'Computing Stable Slopes...' : 'Compute Safe Route'}</span>
@@ -139,7 +139,7 @@ export const SafeRoutes = () => {
 
         {/* Calculated Result Card */}
         {calculatedRoute && (
-          <div className="mt-6 p-5 bg-slate-950/80 border border-emerald-500/40 rounded-xl space-y-4 animate-fadeIn">
+          <div className="mt-6 p-5 bg-slate-950/80 border border-primary/40 rounded-xl space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-5 h-5 text-emerald-400" />
@@ -157,7 +157,7 @@ export const SafeRoutes = () => {
               </div>
               <div className="bg-slate-900 p-3 rounded-lg border border-slate-800">
                 <span className="text-slate-400 block mb-1">Detour Distance & ETA:</span>
-                <span className="text-cyan-300 font-bold font-mono">{calculatedRoute.distance} · {calculatedRoute.estimatedTime}</span>
+                <span className="text-primary-light font-bold font-mono">{calculatedRoute.distance} · {calculatedRoute.estimatedTime}</span>
               </div>
               <div className="bg-slate-900 p-3 rounded-lg border border-slate-800">
                 <span className="text-slate-400 block mb-1">Terrain Clearance:</span>
@@ -173,7 +173,7 @@ export const SafeRoutes = () => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-              <Truck className="w-5 h-5 text-cyan-400" />
+              <Truck className="w-5 h-5 text-primary" />
               Strategic Highway Corridors Status
             </h2>
             <p className="text-xs text-slate-400">Live BRO / SDRF mountain road clearance telemetry</p>
@@ -188,7 +188,7 @@ export const SafeRoutes = () => {
                 placeholder="Search highway or state..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-slate-900 border border-slate-800 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500"
+                className="bg-slate-900 border border-slate-800 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
               />
             </div>
 
@@ -198,7 +198,7 @@ export const SafeRoutes = () => {
                   key={st}
                   onClick={() => setFilterStatus(st)}
                   className={`px-2.5 py-1 text-[10px] font-bold rounded-md transition-colors ${
-                    filterStatus === st ? 'bg-cyan-500 text-slate-950' : 'text-slate-400 hover:text-white'
+                    filterStatus === st ? 'bg-primary text-slate-950' : 'text-slate-400 hover:text-white'
                   }`}
                 >
                   {st.replace('_', ' ')}
@@ -218,7 +218,7 @@ export const SafeRoutes = () => {
                 onClick={() => setSelectedCorridor(corridor)}
                 className={`cursor-pointer rounded-2xl p-5 border transition-all flex flex-col justify-between ${
                   isSelected
-                    ? 'bg-slate-800/90 border-cyan-500 shadow-lg shadow-cyan-500/10'
+                    ? 'bg-slate-800/90 border-primary shadow-lg shadow-primary/10'
                     : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'
                 }`}
               >
@@ -243,14 +243,14 @@ export const SafeRoutes = () => {
                     </div>
                     <div className="flex justify-between">
                       <span className="text-slate-500">Clearance Status:</span>
-                      <span className="text-cyan-400 font-medium truncate max-w-[170px]">{corridor.estimatedClearance}</span>
+                      <span className="text-primary-light font-medium truncate max-w-[170px]">{corridor.estimatedClearance}</span>
                     </div>
                   </div>
                 </div>
 
                 <div className="pt-3 mt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-500">
                   <span>Updated: {corridor.lastUpdated}</span>
-                  <span className="text-cyan-400 font-semibold flex items-center gap-0.5">
+                  <span className="text-primary-light font-semibold flex items-center gap-0.5">
                     View Detours <ChevronRight className="w-3.5 h-3.5" />
                   </span>
                 </div>
@@ -264,7 +264,7 @@ export const SafeRoutes = () => {
           <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 mt-4 space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
               <div>
-                <span className="text-xs font-mono text-cyan-400 uppercase">{selectedCorridor.state} Highway Sector</span>
+                <span className="text-xs font-mono text-primary-light uppercase">{selectedCorridor.state} Highway Sector</span>
                 <h3 className="text-xl font-bold text-white">{selectedCorridor.name}</h3>
               </div>
               <span className={`self-start sm:self-auto text-xs font-bold px-3 py-1 rounded-full border ${getStatusBadge(selectedCorridor.status)}`}>
@@ -276,7 +276,7 @@ export const SafeRoutes = () => {
               {/* Vulnerable Sections & Clearance */}
               <div className="space-y-3 text-xs">
                 <h4 className="font-bold text-slate-200 flex items-center gap-1.5">
-                  <AlertTriangle className="w-4 h-4 text-amber-400" /> Active Hazard Bottlenecks
+                  <AlertTriangle className="w-4 h-4 text-accent" /> Active Hazard Bottlenecks
                 </h4>
                 <div className="space-y-1.5">
                   {selectedCorridor.vulnerableSections.map((sec, i) => (
@@ -295,7 +295,7 @@ export const SafeRoutes = () => {
               {/* Alternative Bypass Corridors */}
               <div className="space-y-3 text-xs">
                 <h4 className="font-bold text-slate-200 flex items-center gap-1.5">
-                  <Navigation className="w-4 h-4 text-cyan-400" /> Verified Alternative Bypass Routes
+                  <Navigation className="w-4 h-4 text-primary" /> Verified Alternative Bypass Routes
                 </h4>
                 {selectedCorridor.alternativeRoutes.length > 0 ? (
                   <div className="space-y-2">
@@ -303,7 +303,7 @@ export const SafeRoutes = () => {
                       <div key={i} className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1.5">
                         <div className="flex items-center justify-between font-bold text-white">
                           <span>{alt.name}</span>
-                          <span className="text-cyan-400 font-mono text-[11px]">{alt.delayMin}</span>
+                          <span className="text-primary-light font-mono text-[11px]">{alt.delayMin}</span>
                         </div>
                         <p className="text-slate-400 text-[11px]">{alt.roadCondition}</p>
                         <span className="inline-block text-[10px] px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono">

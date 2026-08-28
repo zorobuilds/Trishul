@@ -121,6 +121,9 @@
       "tailwind_config"
     ],
     "10": [
+      "tailwindcss_tailwindcss"
+    ],
+    "11": [
       "vite_config"
     ]
   },
@@ -135,7 +138,8 @@
     "7": 0.6,
     "8": 1.0,
     "9": 1.0,
-    "10": 1.0
+    "10": 1.0,
+    "11": 1.0
   },
   "gods": [
     {
@@ -213,8 +217,36 @@
       "why": "cross-file semantic connection"
     }
   ],
-  "tokens": {
-    "input": 0,
-    "output": 0
-  }
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `dependencies` connect `dependencies` to `package.json`?",
+      "why": "High betweenness centrality (0.170) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `devDependencies` connect `devDependencies` to `package.json`?",
+      "why": "High betweenness centrality (0.146) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `react` connect `App.jsx` to `AdminDashboard.jsx`, `.oxlintrc.json`, `Home.jsx`, `SafeRoutes.jsx`?",
+      "why": "High betweenness centrality (0.090) - this node is a cross-community bridge."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `clsx`, `framer-motion`, `leaflet` to the rest of the system?",
+      "why": "37 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `dependencies` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.08695652173913043 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `devDependencies` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.10526315789473684 - nodes in this community are weakly interconnected."
+    }
+  ]
 }

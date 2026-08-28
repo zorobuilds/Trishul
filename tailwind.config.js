@@ -1,4 +1,4 @@
-﻿/** @type {import('tailwindcss').Config} */
+/** @type {import('tailwindcss').Config} */
 export default {
   content: [
     "./index.html",
@@ -8,15 +8,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        trishul: {
-          dark: '#0B1120',
-          darker: '#060913',
-          card: '#131D33',
-          border: '#1E293B',
-          accent: '#38BDF8',
-          danger: '#EF4444',
-          warning: '#F59E0B',
-          success: '#10B981'
+        primary: {
+          DEFAULT: '#14b8a6', // teal-600
+          light: '#5eead4',   // teal-300
+          dark: '#0f766e',    // teal-800
+        },
+        accent: {
+          DEFAULT: '#f59e0b', // orange-500
+          light: '#fdc68a',   // orange-300
+          dark: '#b45309',    // orange-700
         }
       }
     },

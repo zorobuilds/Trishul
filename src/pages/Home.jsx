@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   ShieldAlert, 
@@ -48,26 +48,26 @@ export const Home = () => {
     <div className="space-y-12 pb-16">
       
       {/* 1. HERO SECTION */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-950 to-slate-950 border-b border-slate-800/80 pt-10 pb-16">
+      <section className="relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-950 to-slate-950 border-b border-slate-800/80 pt-10 pb-16 animate-fadeIn">
         {/* Glow ambient effects */}
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div className="absolute top-1/2 right-1/4 w-80 h-80 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute top-1/2 right-1/4 w-80 h-80 bg-accent/10 rounded-full blur-3xl pointer-events-none"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
             {/* Hero Left Content */}
             <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-mono font-medium">
-                <Radio className="w-3.5 h-3.5 animate-pulse text-cyan-400" />
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/30 text-primary-light text-xs font-mono font-medium">
+                <Radio className="w-3.5 h-3.5 animate-pulse text-primary" />
                 <span>NER MULTI-HAZARD EARLY WARNING INITIATIVE (SIH 2026)</span>
               </div>
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight">
-                AI Early Warning & <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-500">
-                  Landslide Intelligence
-                </span>
+               AI Early Warning & <br />
+              <span className="inline-block bg-clip-text bg-gradient-to-r from-primary-light via-primary to-accent transform-gpu antialiased">
+                Landslide Intelligence
+              </span>
               </h1>
 
               <p className="text-base sm:text-lg text-slate-300 max-w-2xl leading-relaxed">
@@ -78,7 +78,7 @@ export const Home = () => {
               <div className="flex flex-wrap gap-4 pt-2">
                 <Link
                   to="/report"
-                  className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 shadow-lg shadow-cyan-500/25 transition-all hover:scale-105"
+                  className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold bg-gradient-to-r from-primary to-accent hover:opacity-95 text-slate-950 shadow-lg shadow-primary/25 transition-all hover:scale-105"
                 >
                   <FilePlus className="w-5 h-5" />
                   <span>Report Hazard / Crack</span>
@@ -86,9 +86,9 @@ export const Home = () => {
 
                 <Link
                   to="/safe-routes"
-                  className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold bg-slate-900 border border-slate-700 hover:border-cyan-500/50 text-white hover:bg-slate-800/80 transition-all"
+                  className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold bg-slate-900 border border-slate-700 hover:border-primary/50 text-white hover:bg-slate-800/80 transition-all"
                 >
-                  <Navigation className="w-5 h-5 text-cyan-400" />
+                  <Navigation className="w-5 h-5 text-primary" />
                   <span>Check Road Passes</span>
                 </Link>
 
@@ -104,19 +104,19 @@ export const Home = () => {
               {/* Feature Highlights Badges */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 text-xs font-medium text-slate-400">
                 <div className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-cyan-400 flex-shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0" />
                   <span>GIS Heatmaps</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-cyan-400 flex-shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0" />
                   <span>Offline PWA Sync</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-cyan-400 flex-shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0" />
                   <span>IMD Radar Fusion</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-cyan-400 flex-shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0" />
                   <span>Multilingual Alert</span>
                 </div>
               </div>
@@ -124,10 +124,10 @@ export const Home = () => {
 
             {/* Hero Right: Live Telemetry Matrix Card */}
             <div className="lg:col-span-5">
-              <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-2xl backdrop-blur-xl relative overflow-hidden">
+              <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-2xl backdrop-blur-xl relative overflow-hidden animate-slideUp">
                 <div className="flex items-center justify-between border-b border-slate-800 pb-4 mb-4">
                   <div className="flex items-center gap-2">
-                    <Activity className="w-5 h-5 text-cyan-400 animate-pulse" />
+                    <Activity className="w-5 h-5 text-primary animate-pulse" />
                     <span className="font-bold text-white tracking-wide">Live NER Risk Telemetry</span>
                   </div>
                   <span className="text-xs font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
@@ -136,27 +136,27 @@ export const Home = () => {
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 mb-5">
-                  <div className="bg-slate-950/70 p-3.5 rounded-xl border border-slate-800/80">
+                  <div className="bg-slate-950/70 p-3.5 rounded-xl border border-slate-800/80 animate-fadeIn">
                     <span className="text-xs text-slate-400 block mb-1">Active IoT Sensors</span>
                     <span className="text-2xl font-black text-white">{AI_METRICS_SUMMARY.totalSensorsActive}</span>
                     <span className="text-[10px] text-emerald-400 block mt-0.5">Piezo, Rain, Inclinometers</span>
                   </div>
 
-                  <div className="bg-slate-950/70 p-3.5 rounded-xl border border-slate-800/80">
+                  <div className="bg-slate-950/70 p-3.5 rounded-xl border border-slate-800/80 animate-fadeIn">
                     <span className="text-xs text-slate-400 block mb-1">High Risk Sectors</span>
                     <span className="text-2xl font-black text-red-400">{AI_METRICS_SUMMARY.highRiskSectors}</span>
                     <span className="text-[10px] text-red-300/80 block mt-0.5">Under Active Surveillance</span>
                   </div>
 
-                  <div className="bg-slate-950/70 p-3.5 rounded-xl border border-slate-800/80">
+                  <div className="bg-slate-950/70 p-3.5 rounded-xl border border-slate-800/80 animate-fadeIn">
                     <span className="text-xs text-slate-400 block mb-1">Response Teams Active</span>
-                    <span className="text-2xl font-black text-cyan-400">{AI_METRICS_SUMMARY.restorationTeamsActive}</span>
-                    <span className="text-[10px] text-cyan-300/80 block mt-0.5">BRO / SDRF Taskforces</span>
+                    <span className="text-2xl font-black text-primary-light">{AI_METRICS_SUMMARY.restorationTeamsActive}</span>
+                    <span className="text-[10px] text-primary/80 block mt-0.5">BRO / SDRF Taskforces</span>
                   </div>
 
-                  <div className="bg-slate-950/70 p-3.5 rounded-xl border border-slate-800/80">
+                  <div className="bg-slate-950/70 p-3.5 rounded-xl border border-slate-800/80 animate-fadeIn">
                     <span className="text-xs text-slate-400 block mb-1">AI Prediction Score</span>
-                    <span className="text-2xl font-black text-emerald-400">{AI_METRICS_SUMMARY.aiPredictionAccuracy}</span>
+                    <span className="text-2xl font-black text-accent">{AI_METRICS_SUMMARY.aiPredictionAccuracy}</span>
                     <span className="text-[10px] text-slate-400 block mt-0.5">Antecedent Rain Index</span>
                   </div>
                 </div>
@@ -166,7 +166,7 @@ export const Home = () => {
                     <AlertTriangle className="w-4 h-4 text-red-400 flex-shrink-0" />
                     <span>Highest Threat: <strong>East Sikkim (NH-10 Sector)</strong></span>
                   </div>
-                  <Link to="/safe-routes" className="text-xs text-cyan-400 hover:text-cyan-300 font-semibold flex items-center gap-0.5">
+                  <Link to="/safe-routes" className="text-xs text-primary-light hover:text-primary font-semibold flex items-center gap-0.5">
                     Map <ArrowUpRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
@@ -178,11 +178,11 @@ export const Home = () => {
       </section>
 
       {/* 2. REGIONAL THREAT MATRIX (8 NER STATES) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-slideUp">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 gap-4">
           <div>
-            <div className="flex items-center gap-2 text-cyan-400 text-xs font-mono font-semibold tracking-wider uppercase mb-1">
-              <MapPin className="w-4 h-4" /> State-By-State Disaster Watch
+            <div className="flex items-center gap-2 text-primary-light text-xs font-mono font-semibold tracking-wider uppercase mb-1">
+              <MapPin className="w-4 h-4 text-primary" /> State-By-State Disaster Watch
             </div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
               North Eastern States Threat Matrix
@@ -200,7 +200,7 @@ export const Home = () => {
                 onClick={() => setFilterThreat(lvl)}
                 className={`px-3 py-1 text-xs font-semibold rounded-lg transition-colors ${
                   filterThreat === lvl
-                    ? 'bg-cyan-500 text-slate-950 font-bold'
+                    ? 'bg-primary text-slate-950 font-bold'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
@@ -218,9 +218,9 @@ export const Home = () => {
               <div
                 key={state.id}
                 onClick={() => setSelectedState(state)}
-                className={`cursor-pointer rounded-2xl p-5 border transition-all relative overflow-hidden ${
+                className={`cursor-pointer rounded-2xl p-5 border transition-all relative overflow-hidden animate-fadeIn ${
                   isSelected
-                    ? 'bg-slate-800/90 border-cyan-500 shadow-lg shadow-cyan-500/10 scale-[1.02]'
+                    ? 'bg-slate-800/90 border-primary shadow-lg shadow-primary/10 scale-[1.02]'
                     : 'bg-slate-900/60 border-slate-800/80 hover:border-slate-700 hover:bg-slate-900'
                 }`}
               >
@@ -236,11 +236,11 @@ export const Home = () => {
 
                 <div className="space-y-2 text-xs">
                   <div className="flex justify-between text-slate-400">
-                    <span className="flex items-center gap-1"><CloudRain className="w-3.5 h-3.5 text-cyan-400" /> Rain 24h:</span>
+                    <span className="flex items-center gap-1"><CloudRain className="w-3.5 h-3.5 text-primary-light" /> Rain 24h:</span>
                     <span className="font-mono font-bold text-slate-200">{state.rainfall24h}</span>
                   </div>
                   <div className="flex justify-between text-slate-400">
-                    <span className="flex items-center gap-1"><Activity className="w-3.5 h-3.5 text-amber-400" /> Soil Saturation:</span>
+                    <span className="flex items-center gap-1"><Activity className="w-3.5 h-3.5 text-accent" /> Soil Saturation:</span>
                     <span className="font-mono font-bold text-slate-200">{state.soilSaturation}</span>
                   </div>
                   <div className="flex justify-between text-slate-400">
@@ -255,12 +255,12 @@ export const Home = () => {
 
         {/* Selected State Detailed Drawer Card */}
         {selectedState && (
-          <div className="bg-gradient-to-r from-slate-900 via-slate-900 to-slate-950 border border-cyan-500/30 rounded-2xl p-6 shadow-xl">
+          <div className="bg-gradient-to-r from-slate-900 via-slate-900 to-slate-950 border border-primary/30 rounded-2xl p-6 shadow-xl animate-fadeIn">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
               <div className="lg:col-span-8 space-y-3">
                 <div className="flex items-center gap-3">
                   <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                    <MapPin className="w-5 h-5 text-cyan-400" />
+                    <MapPin className="w-5 h-5 text-primary" />
                     {selectedState.name} Sector Focus
                   </h3>
                   <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full border ${getThreatBadge(selectedState.threatLevel)}`}>
@@ -273,7 +273,7 @@ export const Home = () => {
                 <div className="flex flex-wrap gap-2 pt-1">
                   <span className="text-xs text-slate-400 font-semibold self-center">Vulnerable Corridors:</span>
                   {selectedState.vulnerablePasses.map((pass, i) => (
-                    <span key={i} className="text-xs bg-slate-800 text-cyan-300 px-2.5 py-1 rounded-lg border border-slate-700 font-mono">
+                    <span key={i} className="text-xs bg-slate-800 text-primary-light px-2.5 py-1 rounded-lg border border-slate-700 font-mono">
                       🚧 {pass}
                     </span>
                   ))}
@@ -283,7 +283,7 @@ export const Home = () => {
               <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3 justify-end">
                 <Link
                   to="/safe-routes"
-                  className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs shadow-md transition-all"
+                  className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-primary hover:bg-primary-dark text-white font-semibold text-xs shadow-md transition-all"
                 >
                   <Navigation className="w-4 h-4" />
                   <span>Inspect Road Corridors</span>
@@ -292,7 +292,7 @@ export const Home = () => {
                   to="/report"
                   className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs border border-slate-700 transition-all"
                 >
-                  <FilePlus className="w-4 h-4 text-cyan-400" />
+                  <FilePlus className="w-4 h-4 text-accent" />
                   <span>Submit Field Incident in {selectedState.name}</span>
                 </Link>
               </div>
@@ -314,7 +314,7 @@ export const Home = () => {
                 <p className="text-xs text-slate-400">Crowdsourced alerts confirmed by Field Disaster Officers</p>
               </div>
             </div>
-            <Link to="/report" className="text-xs text-cyan-400 hover:text-cyan-300 font-semibold flex items-center gap-1">
+            <Link to="/report" className="text-xs text-primary-light hover:text-primary font-semibold flex items-center gap-1">
               Submit Report <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
@@ -323,12 +323,12 @@ export const Home = () => {
             {LIVE_BULLETINS.map((item) => (
               <div
                 key={item.id}
-                className="bg-slate-950/80 border border-slate-800/80 rounded-xl p-4 hover:border-slate-700 transition-all flex flex-col justify-between"
+                className="bg-slate-950/80 border border-slate-800/80 rounded-xl p-4 hover:border-primary/40 transition-all flex flex-col justify-between animate-fadeIn"
               >
                 <div>
                   <div className="flex items-center justify-between text-xs mb-2">
-                    <span className="font-mono text-cyan-400 flex items-center gap-1">
-                      <MapPin className="w-3.5 h-3.5" /> {item.location}
+                    <span className="font-mono text-primary-light flex items-center gap-1">
+                      <MapPin className="w-3.5 h-3.5 text-primary" /> {item.location}
                     </span>
                     <span className="text-slate-500">{item.time}</span>
                   </div>
@@ -339,7 +339,7 @@ export const Home = () => {
                   <span className="text-emerald-400 flex items-center gap-1 font-medium">
                     <CheckCircle2 className="w-3 h-3" /> Field Verified
                   </span>
-                  <span className="text-slate-500 uppercase font-mono">{item.type}</span>
+                  <span className="text-accent uppercase font-mono">{item.type}</span>
                 </div>
               </div>
             ))}
@@ -350,7 +350,7 @@ export const Home = () => {
       {/* 4. KEY ARCHITECTURAL PILLARS (Why Trishul Wins in NER) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-8">
-          <span className="text-xs font-mono text-cyan-400 uppercase font-bold tracking-widest">
+          <span className="text-xs font-mono text-primary uppercase font-bold tracking-widest">
             ENGINEERED FOR EXTREME TERRAINS
           </span>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-white mt-1">
@@ -359,8 +359,8 @@ export const Home = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 space-y-3 hover:border-cyan-500/40 transition-colors">
-            <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+          <div className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 space-y-3 hover:border-primary/40 transition-colors animate-fadeIn">
+            <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/30 flex items-center justify-center text-primary">
               <Cpu className="w-5 h-5" />
             </div>
             <h3 className="text-lg font-bold text-white">AI Antecedent Rainfall Index</h3>
@@ -369,8 +369,8 @@ export const Home = () => {
             </p>
           </div>
 
-          <div className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 space-y-3 hover:border-cyan-500/40 transition-colors">
-            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+          <div className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 space-y-3 hover:border-accent/40 transition-colors animate-fadeIn">
+            <div className="w-10 h-10 rounded-xl bg-accent/10 border border-accent/30 flex items-center justify-center text-accent">
               <WifiOff className="w-5 h-5" />
             </div>
             <h3 className="text-lg font-bold text-white">Zero-Connectivity Offline PWA</h3>
@@ -379,7 +379,7 @@ export const Home = () => {
             </p>
           </div>
 
-          <div className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 space-y-3 hover:border-cyan-500/40 transition-colors">
+          <div className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 space-y-3 hover:border-primary/40 transition-colors animate-fadeIn">
             <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400">
               <Layers className="w-5 h-5" />
             </div>

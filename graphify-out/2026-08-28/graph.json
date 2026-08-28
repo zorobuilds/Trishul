@@ -598,10 +598,21 @@
       "source_location": "L29"
     },
     {
+      "id": "tailwindcss_tailwindcss",
+      "label": "tailwindcss",
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "tailwindcss",
+      "confidence": "EXTRACTED",
+      "file_type": "code",
+      "norm_label": "tailwindcss",
+      "source_file": "tailwindcss"
+    },
+    {
       "id": "vite_config",
       "label": "vite.config.js",
       "_origin": "ast",
-      "community": 10,
+      "community": 11,
       "community_name": "vite.config.js",
       "file_type": "code",
       "norm_label": "vite.config.js",
@@ -2653,5 +2664,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "dd48f13e76c0751d9ca28f861ca1396f285471e8"
+  "built_at_commit": "3792430a64be6174c9d58de0deded0fef958e9ee"
 }

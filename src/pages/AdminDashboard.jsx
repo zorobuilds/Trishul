@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { 
   ShieldAlert, 
   Activity, 
@@ -90,7 +90,7 @@ export const AdminDashboard = () => {
             <span className="text-xs font-mono text-slate-300">ISRO Radar: <strong>LINKED</strong></span>
           </div>
           <div className="bg-slate-950 px-3 py-2 rounded-xl border border-slate-800 flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+            <span className="w-2.5 h-2.5 rounded-full bg-accent"></span>
             <span className="text-xs font-mono text-slate-300">Sensors Active: <strong>{IOT_SENSOR_STATIONS.length}</strong></span>
           </div>
           <div className="bg-slate-950 px-3 py-2 rounded-xl border border-slate-800 flex items-center gap-2">
@@ -101,11 +101,11 @@ export const AdminDashboard = () => {
       </div>
 
       {/* 2. Interactive Tactical GIS Map Section */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 space-y-4 shadow-2xl">
+      <div className="bg-slate-900/90 border-2 border-accent/40 rounded-2xl p-6 space-y-4 shadow-2xl">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <h2 className="text-xl font-bold text-white flex items-center gap-2">
-              <Layers className="w-5 h-5 text-cyan-400" />
+              <Layers className="w-5 h-5 text-accent" />
               North East India Tactical GIS Multi-Layer Map
             </h2>
             <p className="text-xs text-slate-400">Toggle GIS layers to monitor sensor arrays, crowd reports, and relief units</p>
@@ -126,7 +126,7 @@ export const AdminDashboard = () => {
             <button
               onClick={() => toggleLayer('sensors')}
               className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5 ${
-                activeLayers.sensors ? 'bg-cyan-600 text-white' : 'text-slate-400 hover:text-white'
+                activeLayers.sensors ? 'bg-accent text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
               }`}
             >
               <Activity className="w-3.5 h-3.5" />
@@ -163,7 +163,7 @@ export const AdminDashboard = () => {
           <div className="flex items-center justify-between">
             <div>
               <h3 className="font-bold text-white text-base flex items-center gap-2">
-                <CloudRain className="w-5 h-5 text-cyan-400" />
+                <CloudRain className="w-5 h-5 text-accent" />
                 AI Rainfall vs. Soil Saturation Threshold Curve
               </h3>
               <p className="text-xs text-slate-400">Antecedent Rain Index (ARI) - Cumulative pore pressure tipping curve</p>
@@ -178,8 +178,8 @@ export const AdminDashboard = () => {
               <AreaChart data={HOURLY_RAINFALL_TREND} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                 <defs>
                   <linearGradient id="colorRain" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#38bdf8" stopOpacity={0.8}/>
-                    <stop offset="95%" stopColor="#38bdf8" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="#f59e0b" stopOpacity={0}/>
                   </linearGradient>
                   <linearGradient id="colorSoil" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#ef4444" stopOpacity={0.8}/>
@@ -192,7 +192,7 @@ export const AdminDashboard = () => {
                 <Tooltip
                   contentStyle={{ backgroundColor: '#0b1120', borderColor: '#334155', borderRadius: '8px', fontSize: '12px' }}
                 />
-                <Area type="monotone" dataKey="rainMm" name="Rain (mm)" stroke="#38bdf8" fillOpacity={1} fill="url(#colorRain)" />
+                <Area type="monotone" dataKey="rainMm" name="Rain (mm)" stroke="#f59e0b" fillOpacity={1} fill="url(#colorRain)" />
                 <Area type="monotone" dataKey="soilSaturation" name="Soil Saturation (%)" stroke="#ef4444" fillOpacity={1} fill="url(#colorSoil)" />
                 <ReferenceLine y={50} label="Safe Threshold" stroke="#10b981" strokeDasharray="3 3" />
               </AreaChart>
@@ -206,7 +206,7 @@ export const AdminDashboard = () => {
             </div>
             <div className="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
               <span className="text-slate-500 block text-[10px]">Slope Incline Shift</span>
-              <span className="font-bold text-amber-400 text-sm">+4.8° Critical</span>
+              <span className="font-bold text-accent text-sm">+4.8° Critical</span>
             </div>
             <div className="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
               <span className="text-slate-500 block text-[10px]">Landslide Probability</span>
@@ -219,7 +219,7 @@ export const AdminDashboard = () => {
         <div className="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="font-bold text-white text-base flex items-center gap-2">
-              <ShieldAlert className="w-5 h-5 text-cyan-400" />
+              <ShieldAlert className="w-5 h-5 text-accent" />
               Incident Triage & Verification
             </h3>
             <span className="text-xs font-mono text-slate-400">{incidents.length} Total Incidents</span>
@@ -237,7 +237,7 @@ export const AdminDashboard = () => {
               >
                 <div className="flex items-start justify-between">
                   <div>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded font-bold uppercase bg-slate-900 text-cyan-400 border border-slate-800 mr-1.5">
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded font-bold uppercase bg-slate-900 text-accent border border-slate-800 mr-1.5">
                       {inc.category}
                     </span>
                     <span className="text-xs font-bold text-white">{inc.title}</span>
@@ -247,7 +247,7 @@ export const AdminDashboard = () => {
                       ? 'bg-slate-800 text-slate-400 border border-slate-700'
                       : inc.status === 'VERIFIED'
                       ? 'bg-emerald-500/20 text-emerald-300'
-                      : 'bg-yellow-500/20 text-yellow-300'
+                      : 'bg-accent/20 text-accent'
                   }`}>
                     {inc.status}
                   </span>
@@ -255,7 +255,7 @@ export const AdminDashboard = () => {
 
                 <p className="text-xs text-slate-400 line-clamp-2">{inc.description}</p>
                 <div className="text-[11px] text-slate-500 font-mono flex items-center gap-1">
-                  <MapPin className="w-3 h-3 text-cyan-400" /> {inc.locationName || `${inc.lat}, ${inc.lng}`}
+                  <MapPin className="w-3 h-3 text-accent" /> {inc.locationName || `${inc.lat}, ${inc.lng}`}
                 </div>
 
                 {/* Authority Action Buttons - Hidden once Resolved */}

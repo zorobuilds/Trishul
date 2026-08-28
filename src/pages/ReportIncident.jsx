@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { 
   Camera, 
@@ -198,7 +198,7 @@ export const ReportIncident = () => {
 
           <div className="mb-6">
             <h2 className="text-2xl font-black text-white flex items-center gap-2">
-              <FileText className="w-6 h-6 text-cyan-400" />
+              <FileText className="w-6 h-6 text-accent" />
               Field Incident & Hazard Reporter
             </h2>
             <p className="text-xs text-slate-400 mt-1">
@@ -210,7 +210,7 @@ export const ReportIncident = () => {
           {submittedResult && (
             <div className={`mb-6 p-4 rounded-xl border ${submittedResult.mode === 'ONLINE' ? 'bg-emerald-950/50 border-emerald-500/50 text-emerald-200' : 'bg-amber-950/50 border-amber-500/50 text-amber-200'}`}>
               <div className="flex items-center gap-2 font-bold text-sm mb-1">
-                <CheckCircle className="w-5 h-5 text-cyan-400" />
+                <CheckCircle className="w-5 h-5 text-accent" />
                 {submittedResult.mode === 'ONLINE' ? 'Incident Transmitted Successfully!' : 'Saved in Local Offline Vault!'}
               </div>
               <p className="text-xs opacity-90">
@@ -233,7 +233,7 @@ export const ReportIncident = () => {
                   placeholder="e.g. Major rockfall on NH-10 near KM 32"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500"
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
                 />
               </div>
 
@@ -242,7 +242,7 @@ export const ReportIncident = () => {
                 <select
                   value={formData.category}
                   onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-500"
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
                 >
                   <option value="LANDSLIDE">🔴 Active Landslide</option>
                   <option value="ROAD_BLOCKAGE">🚧 Highway / Road Blockage</option>
@@ -261,7 +261,7 @@ export const ReportIncident = () => {
                 <select
                   value={formData.severity}
                   onChange={(e) => setFormData({ ...formData, severity: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-500"
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
                 >
                   <option value="CRITICAL">Critical (Life / Route in Immediate Hazard)</option>
                   <option value="HIGH">High (Major Disruption / Fast Movement)</option>
@@ -275,7 +275,7 @@ export const ReportIncident = () => {
                 <select
                   value={formData.state}
                   onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-500"
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
                 >
                   {NER_STATES_DATA.map((st) => (
                     <option key={st.id} value={st.name}>{st.name}</option>
@@ -288,13 +288,13 @@ export const ReportIncident = () => {
             <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
-                  <Compass className="w-4 h-4 text-cyan-400" /> Geolocation & Landmark
+                  <Compass className="w-4 h-4 text-accent" /> Geolocation & Landmark
                 </span>
                 <button
                   type="button"
                   onClick={handleFetchLocation}
                   disabled={geoLocating}
-                  className="text-xs text-cyan-400 hover:text-cyan-300 font-semibold flex items-center gap-1 bg-slate-900 px-2.5 py-1 rounded-lg border border-slate-800"
+                  className="text-xs text-accent hover:text-accent-light font-semibold flex items-center gap-1 bg-slate-900 px-2.5 py-1 rounded-lg border border-slate-800"
                 >
                   <Navigation className={`w-3.5 h-3.5 ${geoLocating ? 'animate-spin' : ''}`} />
                   <span>{geoLocating ? 'Acquiring GPS...' : 'Re-acquire GPS'}</span>
@@ -307,7 +307,7 @@ export const ReportIncident = () => {
                   placeholder="Specific Landmark / Milestone (e.g. Mile 29, NH-10 Singtam)"
                   value={formData.locationName}
                   onChange={(e) => setFormData({ ...formData, locationName: e.target.value })}
-                  className="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500"
+                  className="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
                 />
               </div>
 
@@ -319,7 +319,7 @@ export const ReportIncident = () => {
                     step="0.00001"
                     value={formData.lat}
                     onChange={(e) => setFormData({ ...formData, lat: parseFloat(e.target.value) })}
-                    className="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5 text-white font-mono"
+                    className="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5 text-white font-mono focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
                   />
                 </div>
                 <div>
@@ -329,7 +329,7 @@ export const ReportIncident = () => {
                     step="0.00001"
                     value={formData.lng}
                     onChange={(e) => setFormData({ ...formData, lng: parseFloat(e.target.value) })}
-                    className="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5 text-white font-mono"
+                    className="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5 text-white font-mono focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
                   />
                 </div>
               </div>
@@ -345,7 +345,7 @@ export const ReportIncident = () => {
                 placeholder="Describe size of boulder/debris, number of vehicles stranded, continuous rainfall intensity, or slope crack width..."
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500"
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
               />
             </div>
 
@@ -353,14 +353,14 @@ export const ReportIncident = () => {
             <div>
               <label className="block text-xs font-semibold text-slate-300 mb-1">Attach Geo-Tagged Evidence Photo</label>
               <div className="flex items-center gap-4">
-                <label className="cursor-pointer flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-950 border border-dashed border-slate-700 hover:border-cyan-500 text-slate-300 text-xs font-medium transition-colors">
-                  <Camera className="w-4 h-4 text-cyan-400" />
+                <label className="cursor-pointer flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-950 border border-dashed border-slate-700 hover:border-accent text-slate-300 text-xs font-medium transition-colors">
+                  <Camera className="w-4 h-4 text-accent" />
                   <span>Upload / Snap Photo</span>
                   <input type="file" accept="image/*" capture="environment" onChange={handleImageChange} className="hidden" />
                 </label>
                 {imagePreview && (
                   <div className="relative">
-                    <img src={imagePreview} alt="Evidence Preview" className="w-12 h-12 rounded-lg object-cover border border-cyan-500" />
+                    <img src={imagePreview} alt="Evidence Preview" className="w-12 h-12 rounded-lg object-cover border border-accent" />
                     <button
                       type="button"
                       onClick={() => { setImagePreview(null); setFormData({ ...formData, imageUrl: null }); }}
@@ -382,7 +382,7 @@ export const ReportIncident = () => {
                   placeholder="e.g. Tashi Bhutia / Local Citizen"
                   value={formData.reporterName}
                   onChange={(e) => setFormData({ ...formData, reporterName: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white"
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
                 />
               </div>
               <div>
@@ -392,7 +392,7 @@ export const ReportIncident = () => {
                   placeholder="+91-XXXXX-XXXXX"
                   value={formData.reporterContact}
                   onChange={(e) => setFormData({ ...formData, reporterContact: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white font-mono"
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white font-mono focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
                 />
               </div>
             </div>
@@ -404,7 +404,7 @@ export const ReportIncident = () => {
                 className={`w-full py-3 rounded-xl font-bold text-sm shadow-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.01] ${
                   isSosMode
                     ? 'bg-red-600 hover:bg-red-500 text-white shadow-red-600/30'
-                    : 'bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 shadow-cyan-500/25'
+                    : 'bg-accent hover:bg-accent-dark text-slate-950 font-bold shadow-accent/25'
                 }`}
               >
                 <Send className="w-4 h-4" />
@@ -425,7 +425,7 @@ export const ReportIncident = () => {
         <div className="lg:col-span-5 space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="font-bold text-white text-base flex items-center gap-2">
-              <Layers className="w-4 h-4 text-cyan-400" />
+              <Layers className="w-4 h-4 text-accent" />
               Live Ground Truth Feed ({incidents.length})
             </h3>
             <span className="text-xs text-slate-400 font-mono">Realtime Mesh</span>
@@ -441,7 +441,7 @@ export const ReportIncident = () => {
               >
                 <div className="flex items-start justify-between gap-2">
                   <div>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded font-bold uppercase bg-slate-800 text-cyan-300 border border-slate-700 mr-2">
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded font-bold uppercase bg-slate-800 text-accent-light border border-slate-700 mr-2">
                       {rep.category.replace('_', ' ')}
                     </span>
                     <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${
@@ -466,7 +466,7 @@ export const ReportIncident = () => {
                 )}
 
                 <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
-                  <span className="flex items-center gap-1 font-mono text-cyan-400">
+                  <span className="flex items-center gap-1 font-mono text-accent">
                     <MapPin className="w-3 h-3" /> {rep.locationName || `${rep.lat}, ${rep.lng}`}
                   </span>
                   <span className={`font-mono text-[10px] px-1.5 py-0.2 rounded border ${
