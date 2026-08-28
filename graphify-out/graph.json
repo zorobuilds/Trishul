@@ -13,6 +13,18 @@
       "file_type": "code",
       "norm_label": "app()",
       "source_file": "src/App.jsx",
+      "source_location": "L41"
+    },
+    {
+      "id": "src_app_appcontent",
+      "label": "AppContent()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "App.jsx",
+      "file_type": "code",
+      "norm_label": "appcontent()",
+      "source_file": "src/App.jsx",
       "source_location": "L11"
     },
     {
@@ -37,7 +49,19 @@
       "file_type": "code",
       "norm_label": "navbar()",
       "source_file": "src/components/Navbar.jsx",
-      "source_location": "L16"
+      "source_location": "L17"
+    },
+    {
+      "id": "src_components_themetoggle_themetoggle",
+      "label": "ThemeToggle()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "App.jsx",
+      "file_type": "code",
+      "norm_label": "themetoggle()",
+      "source_file": "src/components/ThemeToggle.jsx",
+      "source_location": "L5"
     },
     {
       "id": "src_context_incidentcontext_incidentprovider",
@@ -609,6 +633,329 @@
       "source_location": "L1"
     },
     {
+      "id": "archeture",
+      "label": "archeture.md",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "Project Trishul: AI-Powered Real-Time Landslide Early Warning & Disaster Management System (NER)",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "archeture.md",
+      "source_file": "archeture.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "archeture_1_system_architecture_overview",
+      "label": "1. System Architecture Overview",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "Project Trishul: AI-Powered Real-Time Landslide Early Warning & Disaster Management System (NER)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "1. system architecture overview",
+      "source_file": "archeture.md",
+      "source_location": "L3"
+    },
+    {
+      "id": "archeture_2_technology_stack",
+      "label": "2. Technology Stack",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "Project Trishul: AI-Powered Real-Time Landslide Early Warning & Disaster Management System (NER)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "2. technology stack",
+      "source_file": "archeture.md",
+      "source_location": "L41"
+    },
+    {
+      "id": "archeture_3_page_by_page_feature_specifications",
+      "label": "3. Page-by-Page Feature Specifications",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "Project Trishul: AI-Powered Real-Time Landslide Early Warning & Disaster Management System (NER)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "3. page-by-page feature specifications",
+      "source_file": "archeture.md",
+      "source_location": "L70"
+    },
+    {
+      "id": "archeture_4_innovative_value_adds_for_sih_smart_india_hackathon",
+      "label": "4. Innovative Value-Adds for SIH (Smart India Hackathon)",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "Project Trishul: AI-Powered Real-Time Landslide Early Warning & Disaster Management System (NER)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "4. innovative value-adds for sih (smart india hackathon)",
+      "source_file": "archeture.md",
+      "source_location": "L128"
+    },
+    {
+      "id": "archeture_5_phased_implementation_plan",
+      "label": "5. Phased Implementation Plan",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "Project Trishul: AI-Powered Real-Time Landslide Early Warning & Disaster Management System (NER)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "5. phased implementation plan",
+      "source_file": "archeture.md",
+      "source_location": "L141"
+    },
+    {
+      "id": "archeture_a_front_public_landing_page",
+      "label": "\ud83c\udfe0 A. Front / Public Landing Page (`/`)",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "Project Trishul: AI-Powered Real-Time Landslide Early Warning & Disaster Management System (NER)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83c\udfe0 a. front / public landing page (`/`)",
+      "source_file": "archeture.md",
+      "source_location": "L72"
+    },
+    {
+      "id": "archeture_ai_data_feeds_future_integration",
+      "label": "AI / Data Feeds (Future Integration)",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "Project Trishul: AI-Powered Real-Time Landslide Early Warning & Disaster Management System (NER)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "ai / data feeds (future integration)",
+      "source_file": "archeture.md",
+      "source_location": "L64"
+    },
+    {
+      "id": "archeture_b_citizen_field_officer_portal_report_citizen",
+      "label": "\ud83d\udcf1 B. Citizen & Field Officer Portal (`/report` & `/citizen`)",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "Project Trishul: AI-Powered Real-Time Landslide Early Warning & Disaster Management System (NER)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83d\udcf1 b. citizen & field officer portal (`/report` & `/citizen`)",
+      "source_file": "archeture.md",
+      "source_location": "L90"
+    },
+    {
+      "id": "archeture_backend_database_phase_2_upcoming",
+      "label": "Backend & Database (Phase 2 - Upcoming)",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "Project Trishul: AI-Powered Real-Time Landslide Early Warning & Disaster Management System (NER)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "backend & database (phase 2 - upcoming)",
+      "source_file": "archeture.md",
+      "source_location": "L57"
+    },
+    {
+      "id": "archeture_c_administrator_disaster_management_command_center_admin",
+      "label": "\ud83d\udee1\ufe0f C. Administrator & Disaster Management Command Center (`/admin`)",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "Project Trishul: AI-Powered Real-Time Landslide Early Warning & Disaster Management System (NER)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83d\udee1\ufe0f c. administrator & disaster management command center (`/admin`)",
+      "source_file": "archeture.md",
+      "source_location": "L107"
+    },
+    {
+      "id": "archeture_frontend_phase_1_current_focus",
+      "label": "Frontend (Phase 1 - Current Focus)",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "Project Trishul: AI-Powered Real-Time Landslide Early Warning & Disaster Management System (NER)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "frontend (phase 1 - current focus)",
+      "source_file": "archeture.md",
+      "source_location": "L43"
+    },
+    {
+      "id": "archeture_project_trishul_ai_powered_real_time_landslide_early_warning_disaster_management_system_ner",
+      "label": "Project Trishul: AI-Powered Real-Time Landslide Early Warning & Disaster Management System (NER)",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "Project Trishul: AI-Powered Real-Time Landslide Early Warning & Disaster Management System (NER)",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "project trishul: ai-powered real-time landslide early warning & disaster management system (ner)",
+      "source_file": "archeture.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "walkthrough",
+      "label": "walkthrough.md",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "\ud83c\udf1f What Has Been Built & Verified",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "walkthrough.md",
+      "source_file": "walkthrough.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "walkthrough_1_public_landing_page_home_jsx",
+      "label": "1. \ud83c\udfe0 Public Landing Page (`/` - `Home.jsx`)",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "\ud83c\udf1f What Has Been Built & Verified",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "1. \ud83c\udfe0 public landing page (`/` - `home.jsx`)",
+      "source_file": "walkthrough.md",
+      "source_location": "L7"
+    },
+    {
+      "id": "walkthrough_2_citizen_field_officer_incident_reporting_portal_report_reportincident_jsx",
+      "label": "2. \ud83d\udcf1 Citizen & Field Officer Incident Reporting Portal (`/report` - `ReportIncident.jsx`)",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "\ud83c\udf1f What Has Been Built & Verified",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "2. \ud83d\udcf1 citizen & field officer incident reporting portal (`/report` - `reportincident.jsx`)",
+      "source_file": "walkthrough.md",
+      "source_location": "L14"
+    },
+    {
+      "id": "walkthrough_3_mountain_road_passes_safe_evacuation_navigator_safe_routes_saferoutes_jsx",
+      "label": "3. \ud83d\udee3\ufe0f Mountain Road Passes & Safe Evacuation Navigator (`/safe-routes` - `SafeRoutes.jsx`)",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "\ud83c\udf1f What Has Been Built & Verified",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "3. \ud83d\udee3\ufe0f mountain road passes & safe evacuation navigator (`/safe-routes` - `saferoutes.jsx`)",
+      "source_file": "walkthrough.md",
+      "source_location": "L22"
+    },
+    {
+      "id": "walkthrough_4_authority_command_center_dashboard_admin_admindashboard_jsx",
+      "label": "4. \ud83d\udee1\ufe0f Authority Command Center Dashboard (`/admin` - `AdminDashboard.jsx`)",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "\ud83c\udf1f What Has Been Built & Verified",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "4. \ud83d\udee1\ufe0f authority command center dashboard (`/admin` - `admindashboard.jsx`)",
+      "source_file": "walkthrough.md",
+      "source_location": "L28"
+    },
+    {
+      "id": "walkthrough_navigation_summary",
+      "label": "\ud83e\udded Navigation Summary",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "\ud83c\udf1f What Has Been Built & Verified",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83e\udded navigation summary",
+      "source_file": "walkthrough.md",
+      "source_location": "L39"
+    },
+    {
+      "id": "walkthrough_next_steps_when_you_return_from_your_break",
+      "label": "\ud83d\ude80 Next Steps (When You Return from Your Break)",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "\ud83c\udf1f What Has Been Built & Verified",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83d\ude80 next steps (when you return from your break)",
+      "source_file": "walkthrough.md",
+      "source_location": "L50"
+    },
+    {
+      "id": "walkthrough_project_trishul_frontend_completion_walkthrough",
+      "label": "Project Trishul - Frontend Completion Walkthrough",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "\ud83c\udf1f What Has Been Built & Verified",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "project trishul - frontend completion walkthrough",
+      "source_file": "walkthrough.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "walkthrough_what_has_been_built_verified",
+      "label": "\ud83c\udf1f What Has Been Built & Verified",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "\ud83c\udf1f What Has Been Built & Verified",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "\ud83c\udf1f what has been built & verified",
+      "source_file": "walkthrough.md",
+      "source_location": "L5"
+    },
+    {
+      "id": "readme",
+      "label": "README.md",
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "React + Vite",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "readme.md",
+      "source_file": "README.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "readme_expanding_the_oxlint_configuration",
+      "label": "Expanding the Oxlint configuration",
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "React + Vite",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "expanding the oxlint configuration",
+      "source_file": "README.md",
+      "source_location": "L14"
+    },
+    {
+      "id": "readme_react_compiler",
+      "label": "React Compiler",
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "React + Vite",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "react compiler",
+      "source_file": "README.md",
+      "source_location": "L10"
+    },
+    {
+      "id": "readme_react_vite",
+      "label": "React + Vite",
+      "_origin": "ast",
+      "community": 13,
+      "community_name": "React + Vite",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "react + vite",
+      "source_file": "README.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "tailwindcss_tailwindcss",
+      "label": "tailwindcss",
+      "_origin": "ast",
+      "community": 14,
+      "community_name": "tailwindcss",
+      "confidence": "EXTRACTED",
+      "file_type": "code",
+      "norm_label": "tailwindcss",
+      "source_file": "tailwindcss"
+    },
+    {
       "id": "src_app",
       "label": "App.jsx",
       "_origin": "ast",
@@ -639,6 +986,17 @@
       "file_type": "code",
       "norm_label": "navbar.jsx",
       "source_file": "src/components/Navbar.jsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_themetoggle",
+      "label": "ThemeToggle.jsx",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "App.jsx",
+      "file_type": "code",
+      "norm_label": "themetoggle.jsx",
+      "source_file": "src/components/ThemeToggle.jsx",
       "source_location": "L1"
     },
     {
@@ -1512,6 +1870,18 @@
       "weight": 1.0
     },
     {
+      "source": "src_components_navbar",
+      "target": "src_components_themetoggle_themetoggle",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/Navbar.jsx",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
       "source": "src_main",
       "target": "src_app_app",
       "relation": "imports",
@@ -1800,6 +2170,18 @@
       "weight": 1.0
     },
     {
+      "source": "src_components_navbar",
+      "target": "src_components_themetoggle",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/Navbar.jsx",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
       "source": "src_components_tacticalgismap",
       "target": "ref_react",
       "relation": "imports_from",
@@ -1809,6 +2191,18 @@
       "context": "import",
       "source_file": "src/components/TacticalGisMap.jsx",
       "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_themetoggle",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/ThemeToggle.jsx",
+      "source_location": "L2",
       "weight": 1.0
     },
     {
@@ -1989,6 +2383,138 @@
       "context": "import",
       "source_file": "src/pages/SafeRoutes.jsx",
       "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "archeture",
+      "target": "archeture_project_trishul_ai_powered_real_time_landslide_early_warning_disaster_management_system_ner",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "archeture.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "archeture_2_technology_stack",
+      "target": "archeture_frontend_phase_1_current_focus",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "archeture.md",
+      "source_location": "L43",
+      "weight": 1.0
+    },
+    {
+      "source": "archeture_2_technology_stack",
+      "target": "archeture_backend_database_phase_2_upcoming",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "archeture.md",
+      "source_location": "L57",
+      "weight": 1.0
+    },
+    {
+      "source": "archeture_2_technology_stack",
+      "target": "archeture_ai_data_feeds_future_integration",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "archeture.md",
+      "source_location": "L64",
+      "weight": 1.0
+    },
+    {
+      "source": "archeture_3_page_by_page_feature_specifications",
+      "target": "archeture_c_administrator_disaster_management_command_center_admin",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "archeture.md",
+      "source_location": "L107",
+      "weight": 1.0
+    },
+    {
+      "source": "archeture_3_page_by_page_feature_specifications",
+      "target": "archeture_a_front_public_landing_page",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "archeture.md",
+      "source_location": "L72",
+      "weight": 1.0
+    },
+    {
+      "source": "archeture_3_page_by_page_feature_specifications",
+      "target": "archeture_b_citizen_field_officer_portal_report_citizen",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "archeture.md",
+      "source_location": "L90",
+      "weight": 1.0
+    },
+    {
+      "source": "archeture_project_trishul_ai_powered_real_time_landslide_early_warning_disaster_management_system_ner",
+      "target": "archeture_4_innovative_value_adds_for_sih_smart_india_hackathon",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "archeture.md",
+      "source_location": "L128",
+      "weight": 1.0
+    },
+    {
+      "source": "archeture_project_trishul_ai_powered_real_time_landslide_early_warning_disaster_management_system_ner",
+      "target": "archeture_5_phased_implementation_plan",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "archeture.md",
+      "source_location": "L141",
+      "weight": 1.0
+    },
+    {
+      "source": "archeture_project_trishul_ai_powered_real_time_landslide_early_warning_disaster_management_system_ner",
+      "target": "archeture_1_system_architecture_overview",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "archeture.md",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "archeture_project_trishul_ai_powered_real_time_landslide_early_warning_disaster_management_system_ner",
+      "target": "archeture_2_technology_stack",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "archeture.md",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "archeture_project_trishul_ai_powered_real_time_landslide_early_warning_disaster_management_system_ner",
+      "target": "archeture_3_page_by_page_feature_specifications",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "archeture.md",
+      "source_location": "L70",
       "weight": 1.0
     },
     {
@@ -2388,6 +2914,50 @@
       "weight": 1.0
     },
     {
+      "source": "readme",
+      "target": "readme_react_vite",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "readme_react_vite",
+      "target": "readme_react_compiler",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "readme_react_vite",
+      "target": "readme_expanding_the_oxlint_configuration",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app",
+      "target": "src_app_appcontent",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/App.jsx",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
       "source": "src_app",
       "target": "src_app_app",
       "relation": "contains",
@@ -2395,7 +2965,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/App.jsx",
-      "source_location": "L11",
+      "source_location": "L41",
       "weight": 1.0
     },
     {
@@ -2417,7 +2987,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/Navbar.jsx",
-      "source_location": "L16",
+      "source_location": "L17",
       "weight": 1.0
     },
     {
@@ -2484,6 +3054,17 @@
       "confidence_score": 1.0,
       "source_file": "src/components/TacticalGisMap.jsx",
       "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_themetoggle",
+      "target": "src_components_themetoggle_themetoggle",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/ThemeToggle.jsx",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -2650,8 +3231,96 @@
       "source_file": "src/pages/SafeRoutes.jsx",
       "source_location": "L24",
       "weight": 1.0
+    },
+    {
+      "source": "walkthrough",
+      "target": "walkthrough_project_trishul_frontend_completion_walkthrough",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "walkthrough.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "walkthrough_project_trishul_frontend_completion_walkthrough",
+      "target": "walkthrough_navigation_summary",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "walkthrough.md",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "walkthrough_project_trishul_frontend_completion_walkthrough",
+      "target": "walkthrough_what_has_been_built_verified",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "walkthrough.md",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "walkthrough_project_trishul_frontend_completion_walkthrough",
+      "target": "walkthrough_next_steps_when_you_return_from_your_break",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "walkthrough.md",
+      "source_location": "L50",
+      "weight": 1.0
+    },
+    {
+      "source": "walkthrough_what_has_been_built_verified",
+      "target": "walkthrough_2_citizen_field_officer_incident_reporting_portal_report_reportincident_jsx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "walkthrough.md",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "walkthrough_what_has_been_built_verified",
+      "target": "walkthrough_3_mountain_road_passes_safe_evacuation_navigator_safe_routes_saferoutes_jsx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "walkthrough.md",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "walkthrough_what_has_been_built_verified",
+      "target": "walkthrough_4_authority_command_center_dashboard_admin_admindashboard_jsx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "walkthrough.md",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "walkthrough_what_has_been_built_verified",
+      "target": "walkthrough_1_public_landing_page_home_jsx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "walkthrough.md",
+      "source_location": "L7",
+      "weight": 1.0
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "dd48f13e76c0751d9ca28f861ca1396f285471e8"
+  "built_at_commit": "baad023ff4294fffd7d1de756b892b1834f71396"
 }
