@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { io } from 'socket.io-client';
 import { 
   ShieldAlert, 
   Activity, 
@@ -15,12 +16,18 @@ import {
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid, ReferenceLine } from 'recharts';
 import { TacticalGisMap } from '../components/TacticalGisMap';
 import { useIncidents } from '../context/IncidentContext';
-import { IOT_SENSOR_STATIONS, RESPONSE_ASSETS, HOURLY_RAINFALL_TREND } from '../data/adminData';
+import { RESPONSE_ASSETS } from '../data/adminData';
 import { NER_STATES_DATA } from '../data/nerData';
 
 export const AdminDashboard = () => {
   const { incidents, updateIncidentStatus } = useIncidents();
   const [, setSelectedIncident] = useState(null);
+
+  // Live state
+  const [sensors, setSensors] = useState([]);
+  const [selectedSensor, setSelectedSensor] = useState(null);
+  const [telemetryData, setTelemetryData] = useState([]);
+  const [liveSensorAlert, setLiveSensorAlert] = useState(null);
 
   // Map layer controls
   const [activeLayers, setActiveLayers] = useState({
@@ -37,6 +44,83 @@ export const AdminDashboard = () => {
   const [broadcastSeverity, setBroadcastSeverity] = useState('RED_ALERT');
   const [broadcastSentLog, setBroadcastSentLog] = useState(null);
   const [isBroadcasting, setIsBroadcasting] = useState(false);
+
+  // Fetch sensors and handle real-time WebSockets
+  useEffect(() => {
+    const fetchSensors = async () => {
+      try {
+        const res = await fetch('http://localhost:5000/api/sensors');
+        const data = await res.json();
+        if (data.success && data.sensors.length > 0) {
+          const formatted = data.sensors.map((s) => ({
+            id: s._id,
+            name: s.name,
+            state: s.state,
+            lat: s.location.coordinates[1],
+            lng: s.location.coordinates[0],
+            type: s.sensorType,
+            porePressureKPa: 98.4,
+            tiltAngleDeg: 1.2,
+            rainGauge1hMm: 12.0,
+            soilSaturation: 60,
+            status: s.status,
+            battery: '94%',
+            lastPing: 'Just now'
+          }));
+          setSensors(formatted);
+          setSelectedSensor(formatted[0]);
+        }
+      } catch (err) {
+        console.error('Error fetching sensors:', err);
+      }
+    };
+
+    fetchSensors();
+
+    // Listen for WebSocket alarms
+    const socket = io('http://localhost:5000');
+    socket.on('sensorAlert', (alert) => {
+      // Find the sensor name for alert display
+      setLiveSensorAlert(alert);
+      // Auto clear alert banner after 12 seconds
+      setTimeout(() => {
+        setLiveSensorAlert(null);
+      }, 12000);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  // Fetch telemetry history when selected sensor changes
+  useEffect(() => {
+    if (!selectedSensor) return;
+
+    const fetchTelemetry = async () => {
+      try {
+        const res = await fetch(`http://localhost:5000/api/sensors/${selectedSensor.id}/telemetry`);
+        const data = await res.json();
+        if (data.success && data.telemetry.length > 0) {
+          setTelemetryData(data.telemetry);
+          
+          // Hydrate selectedSensor values with the latest telemetry reading
+          const latest = data.telemetry[data.telemetry.length - 1];
+          setSelectedSensor((prev) => ({
+            ...prev,
+            rainGauge1hMm: latest.rainMm,
+            soilSaturation: latest.soilSaturation,
+            porePressureKPa: latest.porePressureKPa,
+            tiltAngleDeg: latest.tiltAngleDeg
+          }));
+        }
+      } catch (err) {
+        console.error('Error fetching telemetry:', err);
+      }
+    };
+
+    fetchTelemetry();
+  }, [selectedSensor?.id]);
 
   const toggleLayer = (layerName) => {
     setActiveLayers(prev => ({ ...prev, [layerName]: !prev[layerName] }));
@@ -61,6 +145,27 @@ export const AdminDashboard = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 transition-colors duration-200">
       
+      {/* WebSocket Telemetry Siren Banner */}
+      {liveSensorAlert && (
+        <div className="bg-red-600 text-white px-5 py-4 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xl border border-red-500 animate-bounce z-50">
+          <div className="flex items-center gap-3">
+            <BellRing className="w-6 h-6 animate-pulse text-white" />
+            <div>
+              <span className="font-mono font-black text-sm tracking-wider uppercase">⚠️ CRITICAL SLOPE SIREN TRIGGERED</span>
+              <p className="text-xs font-semibold mt-0.5">
+                IoT Sensor Station reports high soil saturation of {liveSensorAlert.soilSaturation}% (Pore Pressure: {liveSensorAlert.porePressureKPa} kPa, Tilt Shift: {liveSensorAlert.tiltAngleDeg}°). Landslide likelihood high.
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => setLiveSensorAlert(null)}
+            className="px-3.5 py-1 text-xs font-bold bg-white text-red-700 rounded-lg hover:bg-slate-100 transition-colors shadow-sm self-start sm:self-center"
+          >
+            Dismiss Siren
+          </button>
+        </div>
+      )}
+
       {/* 1. Header Banner & Live Authority Operations Summary */}
       <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xl">
         <div>
@@ -83,7 +188,7 @@ export const AdminDashboard = () => {
           </div>
           <div className="bg-slate-50 dark:bg-slate-950 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
-            <span className="text-xs font-mono font-bold text-slate-800 dark:text-slate-300">Sensors Active: <strong>{IOT_SENSOR_STATIONS.length}</strong></span>
+            <span className="text-xs font-mono font-bold text-slate-800 dark:text-slate-300">Sensors Active: <strong>{sensors.length}</strong></span>
           </div>
           <div className="bg-slate-50 dark:bg-slate-950 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-red-600 animate-bounce"></span>
@@ -124,7 +229,7 @@ export const AdminDashboard = () => {
               }`}
             >
               <Activity className="w-3.5 h-3.5" />
-              <span>IoT Sensors ({IOT_SENSOR_STATIONS.length})</span>
+              <span>IoT Sensors ({sensors.length})</span>
             </button>
 
             <button
@@ -143,7 +248,7 @@ export const AdminDashboard = () => {
         {/* The Leaflet Map Component */}
         <TacticalGisMap
           incidents={incidents}
-          sensors={IOT_SENSOR_STATIONS}
+          sensors={sensors}
           assets={RESPONSE_ASSETS}
           activeLayers={activeLayers}
           onSelectIncident={(inc) => setSelectedIncident(inc)}
@@ -155,7 +260,7 @@ export const AdminDashboard = () => {
         
         {/* Left (7 Cols): Rainfall Accumulation Curve vs. Landslide Threshold */}
         <div className="lg:col-span-7 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 space-y-4 shadow-lg">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <h3 className="font-black text-slate-900 dark:text-white text-base flex items-center gap-2">
                 <CloudRain className="w-5 h-5 text-amber-600 dark:text-amber-500" />
@@ -163,14 +268,27 @@ export const AdminDashboard = () => {
               </h3>
               <p className="text-xs text-slate-700 dark:text-slate-400 font-semibold">Antecedent Rain Index (ARI) - Cumulative pore pressure tipping curve</p>
             </div>
-            <span className="text-[10px] font-mono font-bold px-2 py-1 rounded bg-red-100 text-red-900 dark:bg-red-500/10 dark:text-red-300 border border-red-300 dark:border-red-500/30">
-              TIPPING POINT EXCEEDED
-            </span>
+            
+            {/* Dynamic Station Selector Dropdown */}
+            {sensors.length > 0 && (
+              <select
+                value={selectedSensor?.id || ''}
+                onChange={(e) => {
+                  const found = sensors.find(s => s.id === e.target.value);
+                  if (found) setSelectedSensor(found);
+                }}
+                className="bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-lg px-2.5 py-1.5 text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-amber-500"
+              >
+                {sensors.map((s) => (
+                  <option key={s.id} value={s.id}>{s.name}</option>
+                ))}
+              </select>
+            )}
           </div>
 
           <div className="h-64 w-full pt-2">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={HOURLY_RAINFALL_TREND} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+              <AreaChart data={telemetryData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                 <defs>
                   <linearGradient id="colorRain" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.8}/>
@@ -194,20 +312,28 @@ export const AdminDashboard = () => {
             </ResponsiveContainer>
           </div>
 
-          <div className="grid grid-cols-3 gap-3 text-center text-xs pt-2">
-            <div className="bg-slate-50 dark:bg-slate-950 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
-              <span className="text-slate-700 dark:text-slate-500 font-bold block text-[10px]">Pore Pressure</span>
-              <span className="font-extrabold text-red-600 dark:text-red-400 text-sm">142.5 kPa</span>
+          {selectedSensor && (
+            <div className="grid grid-cols-3 gap-3 text-center text-xs pt-2">
+              <div className="bg-slate-50 dark:bg-slate-950 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
+                <span className="text-slate-700 dark:text-slate-500 font-bold block text-[10px]">Pore Pressure</span>
+                <span className={`font-extrabold text-sm ${selectedSensor.porePressureKPa > 120 ? 'text-red-600 dark:text-red-400' : 'text-slate-850 dark:text-white'}`}>
+                  {selectedSensor.porePressureKPa} kPa
+                </span>
+              </div>
+              <div className="bg-slate-50 dark:bg-slate-950 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
+                <span className="text-slate-700 dark:text-slate-500 font-bold block text-[10px]">Slope Incline Shift</span>
+                <span className={`font-extrabold text-sm ${selectedSensor.tiltAngleDeg > 3.0 ? 'text-red-600 dark:text-red-400' : 'text-slate-850 dark:text-white'}`}>
+                  +{selectedSensor.tiltAngleDeg}° {selectedSensor.tiltAngleDeg > 3.0 ? 'Critical' : 'Normal'}
+                </span>
+              </div>
+              <div className="bg-slate-50 dark:bg-slate-950 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
+                <span className="text-slate-700 dark:text-slate-500 font-bold block text-[10px]">Landslide Probability</span>
+                <span className={`font-extrabold text-sm ${selectedSensor.soilSaturation > 80 ? 'text-red-600 dark:text-red-500' : 'text-emerald-600 dark:text-emerald-500'}`}>
+                  {selectedSensor.soilSaturation > 80 ? '94.8% Probable' : 'Low Risk'}
+                </span>
+              </div>
             </div>
-            <div className="bg-slate-50 dark:bg-slate-950 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
-              <span className="text-slate-700 dark:text-slate-500 font-bold block text-[10px]">Slope Incline Shift</span>
-              <span className="font-extrabold text-amber-700 dark:text-amber-400 text-sm">+4.8° Critical</span>
-            </div>
-            <div className="bg-slate-50 dark:bg-slate-950 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
-              <span className="text-slate-700 dark:text-slate-500 font-bold block text-[10px]">Landslide Probability</span>
-              <span className="font-extrabold text-red-600 dark:text-red-500 text-sm">94.8% Probable</span>
-            </div>
-          </div>
+          )}
         </div>
 
         {/* Right (5 Cols): Incident Triage & Verification Workflow */}
@@ -250,7 +376,7 @@ export const AdminDashboard = () => {
 
                 <p className="text-xs text-slate-800 dark:text-slate-300 line-clamp-2 font-medium">{inc.description}</p>
                 <div className="text-[11px] text-slate-700 dark:text-slate-400 font-mono font-bold flex items-center gap-1">
-                  <MapPin className="w-3 h-3 text-amber-600 dark:text-amber-500" /> {inc.locationName || `${inc.lat}, ${inc.lng}`}
+                  <MapPin className="w-3.5 h-3.5 text-amber-600 dark:text-amber-500" /> {inc.locationName || `${inc.lat}, ${inc.lng}`}
                 </div>
 
                 {/* Authority Action Buttons */}
@@ -261,7 +387,7 @@ export const AdminDashboard = () => {
                       onClick={() => updateIncidentStatus(inc.id, 'VERIFIED')}
                       className="px-2.5 py-1 rounded bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold flex items-center gap-1 transition-colors cursor-pointer shadow-sm"
                     >
-                      <Check className="w-3 h-3" /> Verify & Alert Public
+                      <Check className="w-3.5 h-3.5" /> Verify & Alert Public
                     </button>
                   )}
 

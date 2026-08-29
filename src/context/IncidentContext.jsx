@@ -1,64 +1,20 @@
-﻿import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { io } from 'socket.io-client';
 
 const IncidentContext = createContext();
 
-export const IncidentProvider = ({ children }) => {
-  // Saved reports in state (hydrated from localStorage for persistence across reloads)
-  const [incidents, setIncidents] = useState(() => {
-    const local = localStorage.getItem('trishul_incidents');
-    if (local) {
-      try {
-        return JSON.parse(local);
-      } catch (e) {
-        console.error('Error parsing stored incidents', e);
-      }
-    }
-    return [
-      {
-        id: 'rep-001',
-        title: 'Road Subsidence & Mudflow',
-        category: 'ROAD_BLOCKAGE',
-        severity: 'CRITICAL',
-        state: 'Sikkim',
-        locationName: 'NH-10, Near Singtam Bridge',
-        lat: 27.235,
-        lng: 88.498,
-        description: 'Large boulder collapse with active mud slip. Two vehicles stuck. BRO notified.',
-        reporterName: 'Tashi Bhutia (Field Officer)',
-        reporterContact: '+91-98765-43210',
-        imageUrl: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=600&q=80',
-        status: 'VERIFIED',
-        timestamp: new Date(Date.now() - 3600000).toISOString(),
-        synced: true
-      },
-      {
-        id: 'rep-002',
-        title: 'Retaining Wall Crack & Soil Creep',
-        category: 'SLOPE_MOVEMENT',
-        severity: 'HIGH',
-        state: 'Mizoram',
-        locationName: 'Hunthar Veng Slope, Aizawl',
-        lat: 23.736,
-        lng: 92.717,
-        description: 'Fissures growing along residential slope retaining wall after 6-hour continuous rain.',
-        reporterName: 'Lalrinawma (Local Resident)',
-        reporterContact: '+91-94361-12345',
-        imageUrl: null,
-        status: 'PENDING_REVIEW',
-        timestamp: new Date(Date.now() - 7200000).toISOString(),
-        synced: true
-      }
-    ];
-  });
+const API_BASE = 'http://localhost:5000/api';
+const SOCKET_BASE = 'http://localhost:5000';
 
-  // Offline queue
+export const IncidentProvider = ({ children }) => {
+  const [incidents, setIncidents] = useState([]);
   const [offlineQueue, setOfflineQueue] = useState(() => {
     const queue = localStorage.getItem('trishul_offline_queue');
     return queue ? JSON.parse(queue) : [];
   });
-
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
+  // Sync network state
   useEffect(() => {
     const handleOnline = () => setIsOnline(true);
     const handleOffline = () => setIsOnline(false);
@@ -72,53 +28,195 @@ export const IncidentProvider = ({ children }) => {
     };
   }, []);
 
-  // Save to localStorage whenever incidents or queue changes
+  // Fetch initial incidents and set up WebSockets
   useEffect(() => {
-    localStorage.setItem('trishul_incidents', JSON.stringify(incidents));
-  }, [incidents]);
+    const fetchIncidents = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/incidents`);
+        const data = await res.json();
+        if (data.success) {
+          setIncidents(data.incidents);
+        }
+      } catch (err) {
+        console.error('Error fetching incidents from backend:', err);
+      }
+    };
 
+    fetchIncidents();
+
+    // Establish WebSocket Connection
+    const socket = io(SOCKET_BASE);
+
+    socket.on('connect', () => {
+      console.log('Connected to Trishul WebSocket');
+    });
+
+    socket.on('incidentCreated', (newInc) => {
+      setIncidents((prev) => {
+        // Avoid duplicate entry if this client created it
+        if (prev.some((item) => item.id === newInc.id)) {
+          return prev;
+        }
+        return [newInc, ...prev];
+      });
+    });
+
+    socket.on('incidentStatusUpdated', (updated) => {
+      setIncidents((prev) =>
+        prev.map((item) => (item.id === updated.id ? { ...item, status: updated.status } : item))
+      );
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  // Sync offline queued items when connection restores
   useEffect(() => {
     localStorage.setItem('trishul_offline_queue', JSON.stringify(offlineQueue));
   }, [offlineQueue]);
 
   // Submit incident
-  const submitIncident = (newReport) => {
+  const submitIncident = async (newReport) => {
+    const tempId = `rep-${Date.now()}`;
     const reportItem = {
       ...newReport,
-      id: `rep-${Date.now()}`,
+      id: tempId,
       timestamp: new Date().toISOString(),
       status: 'PENDING_REVIEW',
       synced: isOnline
     };
 
     if (isOnline) {
-      setIncidents((prev) => [reportItem, ...prev]);
-      return { success: true, mode: 'ONLINE', data: reportItem };
-    } else {
-      // Save in offline queue
-      setOfflineQueue((prev) => [reportItem, ...prev]);
-      setIncidents((prev) => [reportItem, ...prev]);
-      return { success: true, mode: 'OFFLINE_QUEUED', data: reportItem };
+      try {
+        const res = await fetch(`${API_BASE}/incidents`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            title: newReport.title,
+            category: newReport.category,
+            severity: newReport.severity,
+            state: newReport.state,
+            locationName: newReport.locationName,
+            lat: Number(newReport.lat),
+            lng: Number(newReport.lng),
+            description: newReport.description,
+            reporterName: newReport.reporterName,
+            reporterContact: newReport.reporterContact,
+            clientCreatedAt: reportItem.timestamp,
+            isOfflineDraft: false
+          })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          // Prepend formatted incident from backend response
+          const savedInc = {
+            id: data.incident._id,
+            title: data.incident.title,
+            category: data.incident.category,
+            severity: data.incident.severity,
+            state: data.incident.state,
+            locationName: data.incident.locationName,
+            lat: data.incident.location.coordinates[1],
+            lng: data.incident.location.coordinates[0],
+            description: data.incident.description,
+            reporterName: data.incident.reporterName,
+            reporterContact: data.incident.reporterContact,
+            status: data.incident.status,
+            timestamp: data.incident.clientCreatedAt || data.incident.createdAt,
+            synced: true
+          };
+          setIncidents((prev) => [savedInc, ...prev]);
+          return { success: true, mode: 'ONLINE', data: savedInc };
+        }
+      } catch (err) {
+        console.error('Failed to post incident online, fallback to queue:', err);
+      }
     }
+
+    // Save in offline queue if offline or API failed
+    const offlineReport = { ...reportItem, synced: false };
+    setOfflineQueue((prev) => [offlineReport, ...prev]);
+    setIncidents((prev) => [offlineReport, ...prev]);
+    return { success: true, mode: 'OFFLINE_QUEUED', data: offlineReport };
   };
 
-  // Sync offline queued items when connection restores
-  const syncOfflineReports = () => {
+  // Sync offline queued items
+  const syncOfflineReports = async () => {
     if (offlineQueue.length === 0) return 0;
-    const syncedCount = offlineQueue.length;
-    
-    setIncidents((prev) =>
-      prev.map((item) => ({ ...item, synced: true }))
-    );
+    let syncedCount = 0;
+
+    for (const report of offlineQueue) {
+      try {
+        const res = await fetch(`${API_BASE}/incidents`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            title: report.title,
+            category: report.category,
+            severity: report.severity,
+            state: report.state,
+            locationName: report.locationName,
+            lat: Number(report.lat),
+            lng: Number(report.lng),
+            description: report.description,
+            reporterName: report.reporterName,
+            reporterContact: report.reporterContact,
+            clientCreatedAt: report.timestamp,
+            isOfflineDraft: true
+          })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          syncedCount++;
+        }
+      } catch (err) {
+        console.error('Failed to sync offline report:', err);
+      }
+    }
+
+    // Refresh incidents list from backend to get verified state
+    try {
+      const res = await fetch(`${API_BASE}/incidents`);
+      const data = await res.json();
+      if (data.success) {
+        setIncidents(data.incidents);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+
     setOfflineQueue([]);
     return syncedCount;
   };
 
   // Update status (for Admin)
-  const updateIncidentStatus = (id, newStatus) => {
-    setIncidents((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, status: newStatus } : item))
-    );
+  const updateIncidentStatus = async (id, newStatus) => {
+    try {
+      const res = await fetch(`${API_BASE}/incidents/${id}/status`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ status: newStatus })
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setIncidents((prev) =>
+          prev.map((item) => (item.id === id ? { ...item, status: newStatus } : item))
+        );
+      }
+    } catch (err) {
+      console.error('Error updating status:', err);
+    }
   };
 
   return (
