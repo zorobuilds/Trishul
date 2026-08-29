@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Logs
 logs
 *.log
@@ -28,3 +29,7 @@ archeture.pdf
 *.njsproj
 *.sln
 *.sw?
+=======
+.env
+node_modules
+>>>>>>> 14ca318 (backend of trishul)
