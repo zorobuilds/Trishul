@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Navigation, 
   MapPin, 
@@ -11,10 +11,11 @@ import {
   Truck, 
   ChevronRight
 } from 'lucide-react';
-import { NER_HIGHWAY_CORRIDORS, ISOLATED_VILLAGES_RESILIENCE } from '../data/corridorsData';
 
 export const SafeRoutes = () => {
-  const [selectedCorridor, setSelectedCorridor] = useState(NER_HIGHWAY_CORRIDORS[0]);
+  const [corridors, setCorridors] = useState([]);
+  const [selectedCorridor, setSelectedCorridor] = useState(null);
+  const [villages, setVillages] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState('ALL');
 
@@ -23,8 +24,40 @@ export const SafeRoutes = () => {
   const [destination, setDestination] = useState('Gangtok, Sikkim');
   const [calculatedRoute, setCalculatedRoute] = useState(null);
   const [isCalculating, setIsCalculating] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const filteredCorridors = NER_HIGHWAY_CORRIDORS.filter(c => {
+  // Fetch highway corridors and villages on mount
+  useEffect(() => {
+    const fetchCorridors = async () => {
+      try {
+        const res = await fetch('http://localhost:5000/api/corridors');
+        const data = await res.json();
+        if (data.success && data.corridors.length > 0) {
+          setCorridors(data.corridors);
+          setSelectedCorridor(data.corridors[0]);
+        }
+      } catch (err) {
+        console.error('Error fetching corridors:', err);
+      }
+    };
+
+    const fetchVillages = async () => {
+      try {
+        const res = await fetch('http://localhost:5000/api/villages');
+        const data = await res.json();
+        if (data.success) {
+          setVillages(data.villages);
+        }
+      } catch (err) {
+        console.error('Error fetching villages:', err);
+      }
+    };
+
+    fetchCorridors();
+    fetchVillages();
+  }, []);
+
+  const filteredCorridors = corridors.filter(c => {
     const matchesSearch = c.name.toLowerCase().includes(searchQuery.toLowerCase()) || c.state.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesStatus = filterStatus === 'ALL' || c.status === filterStatus;
     return matchesSearch && matchesStatus;
@@ -43,23 +76,33 @@ export const SafeRoutes = () => {
     }
   };
 
-  const handleCalculateRoute = (e) => {
+  const handleCalculateRoute = async (e) => {
     e.preventDefault();
     setIsCalculating(true);
-    setTimeout(() => {
-      setIsCalculating(false);
-      setCalculatedRoute({
-        origin,
-        destination,
-        primaryHighway: 'NH-10 (Direct corridor)',
-        primaryStatus: 'BLOCKED (Mile 29 Mudflow)',
-        recommendedSafeRoute: 'Via Melli - Jorethang - Namchi Bypass',
-        distance: '148 km',
-        estimatedTime: '4 hrs 50 mins (+55 min detour)',
-        riskGrade: 'LOW-RISK (Avoids river erosion zone)',
-        advisory: 'Paved, stable gradient. Night movement permitted for light motor vehicles.'
+    setErrorMessage('');
+    setCalculatedRoute(null);
+
+    try {
+      const res = await fetch('http://localhost:5000/api/routes/calculate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ origin, destination })
       });
-    }, 600);
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setCalculatedRoute(data);
+      } else {
+        setErrorMessage(data.message || 'Detour path cannot be computed due to disconnected graph pathways.');
+      }
+    } catch (err) {
+      console.error(err);
+      setErrorMessage('Route planner server offline. Please try again later.');
+    } finally {
+      setIsCalculating(false);
+    }
   };
 
   return (
@@ -93,13 +136,24 @@ export const SafeRoutes = () => {
             <label className="block text-xs font-bold text-slate-900 dark:text-slate-400 mb-1">Starting Point (Origin)</label>
             <div className="relative">
               <MapPin className="w-4 h-4 text-teal-600 dark:text-teal-400 absolute left-3 top-3" />
-              <input
-                type="text"
-                required
+              <select
                 value={origin}
                 onChange={(e) => setOrigin(e.target.value)}
                 className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl pl-9 pr-3 py-2.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500 font-bold"
-              />
+              >
+                <option value="Siliguri Junction">Siliguri Junction</option>
+                <option value="Sevoke">Sevoke Junction</option>
+                <option value="Melli">Melli Gate</option>
+                <option value="Rangpo">Rangpo Border</option>
+                <option value="Singtam">Singtam Town</option>
+                <option value="Gangtok, Sikkim">Gangtok</option>
+                <option value="Dimapur">Dimapur Station</option>
+                <option value="Chumukedima">Chumukedima Gate</option>
+                <option value="Kohima">Kohima (Central)</option>
+                <option value="Balipara">Balipara Depot</option>
+                <option value="Bhalukpong">Bhalukpong Cut</option>
+                <option value="Tawang">Tawang</option>
+              </select>
             </div>
           </div>
 
@@ -107,13 +161,17 @@ export const SafeRoutes = () => {
             <label className="block text-xs font-bold text-slate-900 dark:text-slate-400 mb-1">Destination in NER</label>
             <div className="relative">
               <Navigation className="w-4 h-4 text-amber-600 dark:text-amber-500 absolute left-3 top-3" />
-              <input
-                type="text"
-                required
+              <select
                 value={destination}
                 onChange={(e) => setDestination(e.target.value)}
                 className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl pl-9 pr-3 py-2.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500 font-bold"
-              />
+              >
+                <option value="Gangtok, Sikkim">Gangtok, Sikkim</option>
+                <option value="Singtam">Singtam, East Sikkim</option>
+                <option value="Kohima">Kohima, Nagaland</option>
+                <option value="Tawang">Tawang, Arunachal</option>
+                <option value="Siliguri Junction">Siliguri Junction</option>
+              </select>
             </div>
           </div>
 
@@ -137,7 +195,13 @@ export const SafeRoutes = () => {
                 <ShieldCheck className="w-5 h-5 text-emerald-700 dark:text-emerald-400" />
                 <span className="font-extrabold text-slate-900 dark:text-white text-base">Recommended Safe Corridor: {calculatedRoute.recommendedSafeRoute}</span>
               </div>
-              <span className="text-xs px-2.5 py-0.5 rounded-full font-mono font-bold bg-emerald-100 text-emerald-900 dark:bg-emerald-500/20 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-500/40">
+              <span className={`text-xs px-2.5 py-0.5 rounded-full font-mono font-bold border ${
+                calculatedRoute.riskGrade === 'HIGH-RISK'
+                  ? 'bg-red-100 text-red-900 border-red-300 dark:bg-red-500/20 dark:text-red-400'
+                  : calculatedRoute.riskGrade === 'MODERATE-RISK'
+                  ? 'bg-amber-100 text-amber-900 border-amber-300 dark:bg-amber-500/20 dark:text-amber-400'
+                  : 'bg-emerald-100 text-emerald-900 border-emerald-300 dark:bg-emerald-500/20 dark:text-emerald-300'
+              }`}>
                 {calculatedRoute.riskGrade}
               </span>
             </div>
@@ -156,6 +220,12 @@ export const SafeRoutes = () => {
                 <span className="text-slate-900 dark:text-slate-200 font-medium">{calculatedRoute.advisory}</span>
               </div>
             </div>
+          </div>
+        )}
+
+        {errorMessage && (
+          <div className="mt-4 p-4 bg-red-100 text-red-900 border border-red-200 rounded-xl text-xs font-bold animate-fadeIn">
+            ❌ {errorMessage}
           </div>
         )}
       </div>
@@ -204,10 +274,10 @@ export const SafeRoutes = () => {
         {/* Highway Cards Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           {filteredCorridors.map((corridor) => {
-            const isSelected = selectedCorridor.id === corridor.id;
+            const isSelected = selectedCorridor?.corridorId === corridor.corridorId;
             return (
               <div
-                key={corridor.id}
+                key={corridor.corridorId}
                 onClick={() => setSelectedCorridor(corridor)}
                 className={`cursor-pointer rounded-2xl p-5 border transition-all flex flex-col justify-between ${
                   isSelected
@@ -242,7 +312,7 @@ export const SafeRoutes = () => {
                 </div>
 
                 <div className="pt-3 mt-3 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-600 dark:text-slate-400 font-semibold">
-                  <span>Updated: {corridor.lastUpdated}</span>
+                  <span>Updated: Just Now</span>
                   <span className="text-teal-800 dark:text-teal-300 font-black flex items-center gap-0.5">
                     View Detours <ChevronRight className="w-3.5 h-3.5" />
                   </span>
@@ -290,7 +360,7 @@ export const SafeRoutes = () => {
                 <h4 className="font-extrabold text-slate-900 dark:text-slate-200 flex items-center gap-1.5">
                   <Navigation className="w-4 h-4 text-teal-700 dark:text-teal-400" /> Verified Alternative Bypass Routes
                 </h4>
-                {selectedCorridor.alternativeRoutes.length > 0 ? (
+                {selectedCorridor.alternativeRoutes && selectedCorridor.alternativeRoutes.length > 0 ? (
                   <div className="space-y-2">
                     {selectedCorridor.alternativeRoutes.map((alt, i) => (
                       <div key={i} className="bg-slate-50 dark:bg-slate-950 p-3 rounded-lg border border-slate-200 dark:border-slate-800 space-y-1.5">
@@ -332,8 +402,8 @@ export const SafeRoutes = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {ISOLATED_VILLAGES_RESILIENCE.map((item) => (
-            <div key={item.id} className="bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2.5">
+          {villages.map((item) => (
+            <div key={item.villageId} className="bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2.5">
               <div className="flex items-start justify-between">
                 <div>
                   <h4 className="font-extrabold text-slate-900 dark:text-white text-sm">{item.village}</h4>
