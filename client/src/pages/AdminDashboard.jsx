@@ -49,7 +49,7 @@ export const AdminDashboard = () => {
   useEffect(() => {
     const fetchSensors = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/sensors');
+        const res = await fetch('https://tr-0946e6036e9a417eadb3b8b3b0a3b88d.ecs.eu-north-1.on.aws/api/sensors');
         const data = await res.json();
         if (data.success && data.sensors.length > 0) {
           const formatted = data.sensors.map((s) => ({
@@ -78,7 +78,7 @@ export const AdminDashboard = () => {
     fetchSensors();
 
     // Listen for WebSocket alarms
-    const socket = io('http://localhost:5000');
+    const socket = io('https://tr-0946e6036e9a417eadb3b8b3b0a3b88d.ecs.eu-north-1.on.aws');
     socket.on('sensorAlert', (alert) => {
       // Find the sensor name for alert display
       setLiveSensorAlert(alert);
@@ -99,7 +99,7 @@ export const AdminDashboard = () => {
 
     const fetchTelemetry = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/sensors/${selectedSensor.id}/telemetry`);
+        const res = await fetch(`https://tr-0946e6036e9a417eadb3b8b3b0a3b88d.ecs.eu-north-1.on.aws/api/sensors/${selectedSensor.id}/telemetry`);
         const data = await res.json();
         if (data.success && data.telemetry.length > 0) {
           setTelemetryData(data.telemetry);

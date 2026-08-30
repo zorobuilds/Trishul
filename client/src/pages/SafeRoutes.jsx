@@ -30,7 +30,7 @@ export const SafeRoutes = () => {
   useEffect(() => {
     const fetchCorridors = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/corridors');
+        const res = await fetch('https://tr-0946e6036e9a417eadb3b8b3b0a3b88d.ecs.eu-north-1.on.aws/api/corridors');
         const data = await res.json();
         if (data.success && data.corridors.length > 0) {
           setCorridors(data.corridors);
@@ -43,7 +43,7 @@ export const SafeRoutes = () => {
 
     const fetchVillages = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/villages');
+        const res = await fetch('https://tr-0946e6036e9a417eadb3b8b3b0a3b88d.ecs.eu-north-1.on.aws/api/villages');
         const data = await res.json();
         if (data.success) {
           setVillages(data.villages);
@@ -83,7 +83,7 @@ export const SafeRoutes = () => {
     setCalculatedRoute(null);
 
     try {
-      const res = await fetch('http://localhost:5000/api/routes/calculate', {
+      const res = await fetch('https://tr-0946e6036e9a417eadb3b8b3b0a3b88d.ecs.eu-north-1.on.aws/api/routes/calculate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

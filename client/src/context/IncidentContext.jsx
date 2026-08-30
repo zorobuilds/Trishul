@@ -3,8 +3,8 @@ import { io } from 'socket.io-client';
 
 const IncidentContext = createContext();
 
-const API_BASE = 'http://localhost:5000/api';
-const SOCKET_BASE = 'http://localhost:5000';
+const API_BASE = 'https://tr-0946e6036e9a417eadb3b8b3b0a3b88d.ecs.eu-north-1.on.aws/api';
+const SOCKET_BASE = 'https://tr-0946e6036e9a417eadb3b8b3b0a3b88d.ecs.eu-north-1.on.aws';
 
 export const IncidentProvider = ({ children }) => {
   const [incidents, setIncidents] = useState([]);
