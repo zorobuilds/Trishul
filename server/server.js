@@ -16,6 +16,10 @@ const corridorRoutes = require("./src/routes/corridorroutes");
 const villageRoutes = require("./src/routes/villageroutes");
 const routeRoutes = require("./src/routes/routeroutes");
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://main.d1uu2kkug1zyzf.amplifyapp.com"
+];
 
 const app = express();
 app.set("trust proxy", 1);
@@ -30,7 +34,7 @@ app.use(helmet());
 // CORS
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: allowedOrigins,
     credentials: true
   })
 );
@@ -87,7 +91,7 @@ app.get("/api/health", (req, res) => {
 // Socket.IO
 const io = new Server(server, {
   cors: {
-    origin: process.env.CLIENT_URL,
+    origin: allowedOrigins,
     credentials: true
   }
 }); 
