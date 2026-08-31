@@ -3,8 +3,13 @@ import { io } from 'socket.io-client';
 
 const IncidentContext = createContext();
 
-const API_BASE = 'https://tr-0946e6036e9a417eadb3b8b3b0a3b88d.ecs.eu-north-1.on.aws/api';
-const SOCKET_BASE = 'https://tr-0946e6036e9a417eadb3b8b3b0a3b88d.ecs.eu-north-1.on.aws';
+const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const BASE_URL = isLocal 
+  ? 'http://localhost:5000' 
+  : 'https://tr-0946e6036e9a417eadb3b8b3b0a3b88d.ecs.eu-north-1.on.aws';
+
+const API_BASE = `${BASE_URL}/api`;
+const SOCKET_BASE = BASE_URL;
 
 export const IncidentProvider = ({ children }) => {
   const [incidents, setIncidents] = useState([]);
@@ -106,6 +111,7 @@ export const IncidentProvider = ({ children }) => {
             description: newReport.description,
             reporterName: newReport.reporterName,
             reporterContact: newReport.reporterContact,
+            imageUrl: newReport.imageUrl,
             clientCreatedAt: reportItem.timestamp,
             isOfflineDraft: false
           })
@@ -126,11 +132,17 @@ export const IncidentProvider = ({ children }) => {
             description: data.incident.description,
             reporterName: data.incident.reporterName,
             reporterContact: data.incident.reporterContact,
+            imageUrl: data.incident.imageUrl,
             status: data.incident.status,
             timestamp: data.incident.clientCreatedAt || data.incident.createdAt,
             synced: true
           };
-          setIncidents((prev) => [savedInc, ...prev]);
+          setIncidents((prev) => {
+            if (prev.some((item) => item.id === savedInc.id)) {
+              return prev;
+            }
+            return [savedInc, ...prev];
+          });
           return { success: true, mode: 'ONLINE', data: savedInc };
         }
       } catch (err) {
@@ -168,6 +180,7 @@ export const IncidentProvider = ({ children }) => {
             description: report.description,
             reporterName: report.reporterName,
             reporterContact: report.reporterContact,
+            imageUrl: report.imageUrl,
             clientCreatedAt: report.timestamp,
             isOfflineDraft: true
           })

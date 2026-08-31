@@ -13,6 +13,7 @@ const createIncident = async (req, res, next) => {
       description,
       reporterName,
       reporterContact,
+      imageUrl,
       clientCreatedAt,
       isOfflineDraft
     } = req.body;
@@ -27,6 +28,7 @@ const createIncident = async (req, res, next) => {
       description,
       reporterName,
       reporterContact,
+      imageUrl,
       clientCreatedAt,
       isOfflineDraft,
 
@@ -50,6 +52,7 @@ const createIncident = async (req, res, next) => {
         lng: incident.location.coordinates[0],
         description: incident.description,
         reporterName: incident.reporterName,
+        imageUrl: incident.imageUrl,
         status: incident.status,
         createdAt: incident.createdAt
       });

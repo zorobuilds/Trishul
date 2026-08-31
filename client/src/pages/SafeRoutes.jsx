@@ -12,6 +12,13 @@ import {
   ChevronRight
 } from 'lucide-react';
 
+const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const BASE_URL = isLocal 
+  ? 'http://localhost:5000' 
+  : 'https://tr-0946e6036e9a417eadb3b8b3b0a3b88d.ecs.eu-north-1.on.aws';
+
+const API_BASE = `${BASE_URL}/api`;
+
 export const SafeRoutes = () => {
   const [corridors, setCorridors] = useState([]);
   const [selectedCorridor, setSelectedCorridor] = useState(null);
@@ -30,7 +37,7 @@ export const SafeRoutes = () => {
   useEffect(() => {
     const fetchCorridors = async () => {
       try {
-        const res = await fetch('https://tr-0946e6036e9a417eadb3b8b3b0a3b88d.ecs.eu-north-1.on.aws/api/corridors');
+        const res = await fetch(`${API_BASE}/corridors`);
         const data = await res.json();
         if (data.success && data.corridors.length > 0) {
           setCorridors(data.corridors);
@@ -43,7 +50,7 @@ export const SafeRoutes = () => {
 
     const fetchVillages = async () => {
       try {
-        const res = await fetch('https://tr-0946e6036e9a417eadb3b8b3b0a3b88d.ecs.eu-north-1.on.aws/api/villages');
+        const res = await fetch(`${API_BASE}/villages`);
         const data = await res.json();
         if (data.success) {
           setVillages(data.villages);
@@ -83,7 +90,7 @@ export const SafeRoutes = () => {
     setCalculatedRoute(null);
 
     try {
-      const res = await fetch('https://tr-0946e6036e9a417eadb3b8b3b0a3b88d.ecs.eu-north-1.on.aws/api/routes/calculate', {
+      const res = await fetch(`${API_BASE}/routes/calculate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

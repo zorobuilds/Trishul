@@ -19,6 +19,13 @@ import { useIncidents } from '../context/IncidentContext';
 import { RESPONSE_ASSETS } from '../data/adminData';
 import { NER_STATES_DATA } from '../data/nerData';
 
+const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const BASE_URL = isLocal 
+  ? 'http://localhost:5000' 
+  : 'https://tr-0946e6036e9a417eadb3b8b3b0a3b88d.ecs.eu-north-1.on.aws';
+
+const API_BASE = `${BASE_URL}/api`;
+
 export const AdminDashboard = () => {
   const { incidents, updateIncidentStatus } = useIncidents();
   const [, setSelectedIncident] = useState(null);
@@ -49,7 +56,7 @@ export const AdminDashboard = () => {
   useEffect(() => {
     const fetchSensors = async () => {
       try {
-        const res = await fetch('https://tr-0946e6036e9a417eadb3b8b3b0a3b88d.ecs.eu-north-1.on.aws/api/sensors');
+        const res = await fetch(`${API_BASE}/sensors`);
         const data = await res.json();
         if (data.success && data.sensors.length > 0) {
           const formatted = data.sensors.map((s) => ({
@@ -78,7 +85,7 @@ export const AdminDashboard = () => {
     fetchSensors();
 
     // Listen for WebSocket alarms
-    const socket = io('https://tr-0946e6036e9a417eadb3b8b3b0a3b88d.ecs.eu-north-1.on.aws');
+    const socket = io(BASE_URL);
     socket.on('sensorAlert', (alert) => {
       // Find the sensor name for alert display
       setLiveSensorAlert(alert);
@@ -99,7 +106,7 @@ export const AdminDashboard = () => {
 
     const fetchTelemetry = async () => {
       try {
-        const res = await fetch(`https://tr-0946e6036e9a417eadb3b8b3b0a3b88d.ecs.eu-north-1.on.aws/api/sensors/${selectedSensor.id}/telemetry`);
+        const res = await fetch(`${API_BASE}/sensors/${selectedSensor.id}/telemetry`);
         const data = await res.json();
         if (data.success && data.telemetry.length > 0) {
           setTelemetryData(data.telemetry);

@@ -38,6 +38,9 @@ export const TacticalGisMap = ({ incidents, sensors, assets, activeLayers, onSel
   const defaultCenter = [26.2006, 92.9376];
   const defaultZoom = 7;
 
+  // Track coordinate occurrences to avoid perfect overlap of markers
+  const seenCoordinates = {};
+
   return (
     <div className="relative w-full h-[520px] rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-2xl z-0">
       
@@ -96,10 +99,28 @@ export const TacticalGisMap = ({ incidents, sensors, assets, activeLayers, onSel
         {activeLayers.incidents && incidents.map((inc) => {
           if (!inc.lat || !inc.lng) return null;
           const isCritical = inc.severity === 'CRITICAL';
+          
+          // Apply slight offset if multiple markers are at the exact same coordinate
+          const coordKey = `${Number(inc.lat).toFixed(5)},${Number(inc.lng).toFixed(5)}`;
+          let renderLat = Number(inc.lat);
+          let renderLng = Number(inc.lng);
+          
+          if (seenCoordinates[coordKey]) {
+            const count = seenCoordinates[coordKey];
+            const ring = Math.floor((count - 1) / 8) + 1; // 1 for first 8, 2 for next 8, etc.
+            const angle = ((count - 1) * 2 * Math.PI) / 8; // spread them evenly
+            const radius = 0.0003 * ring; // increase radius for outer rings
+            renderLat += Math.sin(angle) * radius;
+            renderLng += Math.cos(angle) * radius;
+            seenCoordinates[coordKey] = count + 1;
+          } else {
+            seenCoordinates[coordKey] = 1;
+          }
+
           return (
             <React.Fragment key={inc.id}>
               <Marker
-                position={[inc.lat, inc.lng]}
+                position={[renderLat, renderLng]}
                 icon={isCritical ? incidentIconCritical : incidentIconWarning}
                 eventHandlers={{
                   click: () => onSelectIncident && onSelectIncident(inc)
@@ -119,7 +140,7 @@ export const TacticalGisMap = ({ incidents, sensors, assets, activeLayers, onSel
               </Marker>
               {/* Risk Perimeter Radius Circle */}
               <Circle
-                center={[inc.lat, inc.lng]}
+                center={[renderLat, renderLng]}
                 radius={isCritical ? 5000 : 2500}
                 pathOptions={{
                   color: isCritical ? '#ef4444' : '#f59e0b',
