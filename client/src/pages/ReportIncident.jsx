@@ -473,6 +473,8 @@ export const ReportIncident = () => {
                   <span className={`font-mono text-[10px] px-1.5 py-0.2 rounded border font-bold ${
                     rep.status === 'VERIFIED'
                       ? 'bg-emerald-100 text-emerald-900 border-emerald-300 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30'
+                      : rep.status === 'REJECTED'
+                      ? 'bg-red-100 text-red-900 border-red-300 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/30'
                       : 'bg-yellow-100 text-yellow-900 border-yellow-300 dark:bg-yellow-500/10 dark:text-yellow-400 dark:border-yellow-500/30'
                   }`}>
                     {rep.status}

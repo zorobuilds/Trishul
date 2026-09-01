@@ -11,7 +11,8 @@ import {
   CloudRain, 
   Check, 
   CheckCircle,
-  MapPin
+  MapPin,
+  X
 } from 'lucide-react';
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid, ReferenceLine } from 'recharts';
 import { TacticalGisMap } from '../components/TacticalGisMap';
@@ -354,72 +355,100 @@ export const AdminDashboard = () => {
           </div>
 
           <div className="space-y-3 max-h-[360px] overflow-y-auto pr-1">
-            {incidents.map((inc) => (
-              <div
-                key={inc.id}
-                className={`p-3.5 rounded-xl border space-y-2 transition-all ${
-                  inc.status === 'RESOLVED'
-                    ? 'bg-slate-50 dark:bg-slate-950/40 border-slate-200 dark:border-slate-800/50 opacity-75'
-                    : 'bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800'
-                }`}
-              >
-                <div className="flex items-start justify-between">
-                  <div>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded font-extrabold uppercase bg-white dark:bg-slate-900 text-amber-800 dark:text-amber-400 border border-slate-200 dark:border-slate-800 mr-1.5">
-                      {inc.category}
-                    </span>
-                    <span className="text-xs font-extrabold text-slate-900 dark:text-white">{inc.title}</span>
-                  </div>
-                  <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
-                    inc.status === 'RESOLVED'
-                      ? 'bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-400'
-                      : inc.status === 'VERIFIED'
-                      ? 'bg-emerald-100 text-emerald-900 dark:bg-emerald-500/20 dark:text-emerald-300'
-                      : 'bg-amber-100 text-amber-900 dark:bg-amber-500/20 dark:text-amber-400'
-                  }`}>
-                    {inc.status}
-                  </span>
-                </div>
-
-                <p className="text-xs text-slate-800 dark:text-slate-300 line-clamp-2 font-medium">{inc.description}</p>
-                <div className="text-[11px] text-slate-700 dark:text-slate-400 font-mono font-bold flex items-center gap-1">
-                  <MapPin className="w-3.5 h-3.5 text-amber-600 dark:text-amber-500" /> {inc.locationName || `${inc.lat}, ${inc.lng}`}
-                </div>
-
-                {/* Authority Action Buttons */}
-                <div className="flex items-center gap-2 pt-1 border-t border-slate-200 dark:border-slate-900">
-                  {inc.status === 'PENDING_REVIEW' && (
-                    <button
-                      type="button"
-                      onClick={() => updateIncidentStatus(inc.id, 'VERIFIED')}
-                      className="px-2.5 py-1 rounded bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold flex items-center gap-1 transition-colors cursor-pointer shadow-sm"
-                    >
-                      <Check className="w-3.5 h-3.5" /> Verify & Alert Public
-                    </button>
-                  )}
-
-                  {inc.status === 'VERIFIED' && (
-                    <button
-                      type="button"
-                      onClick={() => updateIncidentStatus(inc.id, 'RESOLVED')}
-                      className="px-2.5 py-1 rounded bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-900 dark:text-slate-200 text-xs font-bold flex items-center gap-1 transition-colors cursor-pointer"
-                    >
-                      Mark Resolved
-                    </button>
-                  )}
-
-                  {inc.status === 'RESOLVED' && (
-                    <span className="text-[11px] text-slate-600 dark:text-slate-500 font-mono font-bold flex items-center gap-1">
-                      <CheckCircle className="w-3.5 h-3.5 text-slate-500" /> Case Closed & Resolved
-                    </span>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+  {incidents.map((inc) => (
+    <div
+      key={inc.id}
+      className={`p-3.5 rounded-xl border space-y-2 transition-all relative overflow-hidden ${
+        inc.status === 'REJECTED'
+          ? 'bg-rose-500/10 border-rose-300/30 dark:bg-slate-950/40 dark:border-rose-900/40'
+          : inc.status === 'RESOLVED'
+          ? 'bg-slate-50 dark:bg-slate-950/40 border-slate-200 dark:border-slate-800/50 opacity-75'
+          : 'bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800'
+      }`}
+    >
+      <div className="flex items-start justify-between">
+        <div>
+          <span className="text-[10px] font-mono px-2 py-0.5 rounded font-extrabold uppercase bg-white dark:bg-slate-900 text-amber-800 dark:text-amber-400 border border-slate-200 dark:border-slate-800 mr-1.5">
+            {inc.category}
+          </span>
+          <span className="text-xs font-extrabold text-slate-900 dark:text-white">
+            {inc.title}
+          </span>
         </div>
-
+        <span
+          className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
+            inc.status === 'RESOLVED'
+              ? 'bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-400'
+              : inc.status === 'VERIFIED'
+              ? 'bg-emerald-100 text-emerald-900 dark:bg-emerald-500/20 dark:text-emerald-300'
+              : inc.status === 'REJECTED'
+              ? 'bg-rose-100 text-rose-900 dark:bg-rose-500/20 dark:text-rose-300'
+              : 'bg-amber-100 text-amber-900 dark:bg-amber-500/20 dark:text-amber-400'
+          }`}
+        >
+          {inc.status}
+        </span>
       </div>
+
+      <p className="text-xs text-slate-800 dark:text-slate-300 line-clamp-2 font-medium">
+        {inc.description}
+      </p>
+
+      <div className="text-[11px] text-slate-700 dark:text-slate-400 font-mono font-bold flex items-center gap-1">
+        <MapPin className="w-3.5 h-3.5 text-amber-600 dark:text-amber-500" />{" "}
+        {inc.locationName || `${inc.lat}, ${inc.lng}`}
+      </div>
+
+      {/* Authority Action Buttons Footer */}
+      <div className="flex items-center gap-2 pt-1 border-t border-slate-200 dark:border-slate-900">
+        {inc.status === 'PENDING_REVIEW' && (
+          <>
+            <button
+              type="button"
+              onClick={() => updateIncidentStatus(inc.id, 'VERIFIED')}
+              className="px-2.5 py-1 rounded bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold flex items-center gap-1 transition-colors cursor-pointer shadow-sm"
+            >
+              <Check className="w-3.5 h-3.5" /> Verify & Alert Public
+            </button>
+
+            <button
+              type="button"
+              title="Case was proven false"
+              onClick={() => updateIncidentStatus(inc.id, 'REJECTED')}
+              className="px-2.5 py-1 rounded bg-rose-700 hover:bg-rose-800 text-white text-xs font-bold flex items-center gap-1 transition-colors cursor-pointer shadow-sm"
+            >
+              <X className="w-3.5 h-3.5" /> Reject
+            </button>
+          </>
+        )}
+
+        {inc.status === 'VERIFIED' && (
+          <button
+            type="button"
+            onClick={() => updateIncidentStatus(inc.id, 'RESOLVED')}
+            className="px-2.5 py-1 rounded bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-900 dark:text-slate-200 text-xs font-bold flex items-center gap-1 transition-colors cursor-pointer"
+          >
+            Mark Resolved
+          </button>
+        )}
+
+        {inc.status === 'RESOLVED' && (
+          <span className="text-[11px] text-slate-600 dark:text-slate-500 font-mono font-bold flex items-center gap-1">
+            <CheckCircle className="w-3.5 h-3.5 text-slate-500" /> Case Closed & Resolved
+          </span>
+        )}
+
+        {inc.status === 'REJECTED' && (
+          <span className="text-[11px] text-rose-600 dark:text-rose-400 font-mono font-bold flex items-center gap-1">
+            <X className="w-3.5 h-3.5 text-rose-500" /> Case Proven False & Rejected
+          </span>
+        )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
 
       {/* 4. Emergency Siren & Multilingual Broadcast Studio */}
       <div className="bg-white dark:bg-slate-900 border border-red-300 dark:border-red-500/30 rounded-2xl p-6 shadow-2xl space-y-4">
