@@ -1,13 +1,13 @@
 # 🔱 PROJECT TRISHUL — AI-Powered Landslide Early Warning & Tactical Disaster Defense System
 
-[![SIH 2026](https://img.shields.io/badge/Smart%20India%20Hackathon-2026-orange?style=for-the-badge&logo=target)](https://sih.gov.in)
+
 [![AWS Amplify](https://img.shields.io/badge/Frontend-AWS%20Amplify-FF9900?style=for-the-badge&logo=awsamplify)](https://main.d1uu2kkug1zyzf.amplifyapp.com)
 [![AWS ECS](https://img.shields.io/badge/Backend-AWS%20ECS-232F3E?style=for-the-badge&logo=amazonecs)](https://aws.amazon.com/ecs/)
 [![ML Engine](https://img.shields.io/badge/AI%20Core-XGBoost%20Classifier-16A34A?style=for-the-badge&logo=scikitlearn)](https://xgboost.readthedocs.io)
 [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
 
 > **"Transforming mountain disaster response from reactive tragedy to 3+ hour predictive defense."**  
-> *Developed by Team TRISHUL for Smart India Hackathon 2026.*
+
 
 ---
 
