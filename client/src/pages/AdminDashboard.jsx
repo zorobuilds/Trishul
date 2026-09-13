@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
 import { 
   ShieldAlert, 
+  Brain, 
+  Sparkles, 
+  Zap, 
   Activity, 
   Layers, 
   Radio, 
@@ -36,6 +39,8 @@ export const AdminDashboard = () => {
   const [selectedSensor, setSelectedSensor] = useState(null);
   const [telemetryData, setTelemetryData] = useState([]);
   const [liveSensorAlert, setLiveSensorAlert] = useState(null);
+  const [aiPrediction, setAiPrediction] = useState(null);
+  const [isPredicting, setIsPredicting] = useState(false);
 
   // Map layer controls
   const [activeLayers, setActiveLayers] = useState({
@@ -127,7 +132,23 @@ export const AdminDashboard = () => {
       }
     };
 
+    const fetchAiPrediction = async () => {
+      setIsPredicting(true);
+      try {
+        const res = await fetch(`${API_BASE}/ai/predict/sensor/${selectedSensor.id}`);
+        const data = await res.json();
+        if (data.success && data.prediction) {
+          setAiPrediction(data);
+        }
+      } catch (err) {
+        console.error('Error fetching AI prediction:', err);
+      } finally {
+        setIsPredicting(false);
+      }
+    };
+
     fetchTelemetry();
+    fetchAiPrediction();
   }, [selectedSensor?.id]);
 
   const toggleLayer = (layerName) => {
@@ -321,25 +342,69 @@ export const AdminDashboard = () => {
           </div>
 
           {selectedSensor && (
-            <div className="grid grid-cols-3 gap-3 text-center text-xs pt-2">
-              <div className="bg-slate-50 dark:bg-slate-950 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
-                <span className="text-slate-700 dark:text-slate-500 font-bold block text-[10px]">Pore Pressure</span>
-                <span className={`font-extrabold text-sm ${selectedSensor.porePressureKPa > 120 ? 'text-red-600 dark:text-red-400' : 'text-slate-850 dark:text-white'}`}>
-                  {selectedSensor.porePressureKPa} kPa
-                </span>
+            <div className="space-y-3 pt-2">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center text-xs">
+                <div className="bg-slate-50 dark:bg-slate-950 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
+                  <span className="text-slate-700 dark:text-slate-500 font-bold block text-[10px]">Pore Pressure</span>
+                  <span className={`font-extrabold text-sm ${selectedSensor.porePressureKPa > 120 ? 'text-red-600 dark:text-red-400' : 'text-slate-800 dark:text-white'}`}>
+                    {selectedSensor.porePressureKPa} kPa
+                  </span>
+                </div>
+                <div className="bg-slate-50 dark:bg-slate-950 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
+                  <span className="text-slate-700 dark:text-slate-500 font-bold block text-[10px]">Slope Shift</span>
+                  <span className={`font-extrabold text-sm ${selectedSensor.tiltAngleDeg > 3.0 ? 'text-red-600 dark:text-red-400' : 'text-slate-800 dark:text-white'}`}>
+                    +{selectedSensor.tiltAngleDeg}°
+                  </span>
+                </div>
+                <div className="bg-slate-50 dark:bg-slate-950 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
+                  <span className="text-slate-700 dark:text-slate-500 font-bold block text-[10px]">24h Rainfall</span>
+                  <span className="font-extrabold text-sm text-amber-600 dark:text-amber-400">
+                    {aiPrediction?.telemetrySummary?.cumulativeRainMm ?? selectedSensor.rainGauge1hMm ?? 0} mm
+                  </span>
+                </div>
+                <div className="bg-slate-50 dark:bg-slate-950 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
+                  <span className="text-slate-700 dark:text-slate-500 font-bold block text-[10px] flex items-center justify-center gap-1">
+                    <Brain className="w-3 h-3 text-purple-600 dark:text-purple-400" /> AI ML Hazard
+                  </span>
+                  <span className={`font-extrabold text-sm ${
+                    aiPrediction?.prediction?.risk_level === 'CRITICAL'
+                      ? 'text-red-600 dark:text-red-500 animate-pulse'
+                      : aiPrediction?.prediction?.risk_level === 'HIGH'
+                      ? 'text-orange-600 dark:text-orange-400'
+                      : aiPrediction?.prediction?.risk_level === 'MODERATE'
+                      ? 'text-amber-600 dark:text-amber-400'
+                      : 'text-emerald-600 dark:text-emerald-500'
+                  }`}>
+                    {isPredicting ? 'Inferring...' : aiPrediction ? `${aiPrediction.prediction.probability_percent}% (${aiPrediction.prediction.risk_level})` : `${selectedSensor.soilSaturation > 80 ? '94.8% Probable' : 'Low Risk'}`}
+                  </span>
+                </div>
               </div>
-              <div className="bg-slate-50 dark:bg-slate-950 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
-                <span className="text-slate-700 dark:text-slate-500 font-bold block text-[10px]">Slope Incline Shift</span>
-                <span className={`font-extrabold text-sm ${selectedSensor.tiltAngleDeg > 3.0 ? 'text-red-600 dark:text-red-400' : 'text-slate-850 dark:text-white'}`}>
-                  +{selectedSensor.tiltAngleDeg}° {selectedSensor.tiltAngleDeg > 3.0 ? 'Critical' : 'Normal'}
-                </span>
-              </div>
-              <div className="bg-slate-50 dark:bg-slate-950 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800">
-                <span className="text-slate-700 dark:text-slate-500 font-bold block text-[10px]">Landslide Probability</span>
-                <span className={`font-extrabold text-sm ${selectedSensor.soilSaturation > 80 ? 'text-red-600 dark:text-red-500' : 'text-emerald-600 dark:text-emerald-500'}`}>
-                  {selectedSensor.soilSaturation > 80 ? '94.8% Probable' : 'Low Risk'}
-                </span>
-              </div>
+
+              {/* AI Recommendation Box */}
+              {aiPrediction && (
+                <div className={`p-3 rounded-xl border flex items-start gap-2.5 text-xs ${
+                  aiPrediction.prediction.risk_level === 'CRITICAL'
+                    ? 'bg-red-50 dark:bg-red-950/40 border-red-200 dark:border-red-900/60 text-red-950 dark:text-red-200'
+                    : aiPrediction.prediction.risk_level === 'HIGH'
+                    ? 'bg-orange-50 dark:bg-orange-950/40 border-orange-200 dark:border-orange-900/60 text-orange-950 dark:text-orange-200'
+                    : 'bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-900/40 text-emerald-950 dark:text-emerald-200'
+                }`}>
+                  <Sparkles className="w-4 h-4 text-purple-600 dark:text-purple-400 flex-shrink-0 mt-0.5" />
+                  <div className="space-y-0.5">
+                    <div className="flex items-center gap-2">
+                      <span className="font-extrabold text-[11px] uppercase tracking-wider">
+                        Trishul ML Advisory ({aiPrediction.prediction.risk_level} Risk)
+                      </span>
+                      <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-purple-100 text-purple-900 dark:bg-purple-900/50 dark:text-purple-300">
+                        {aiPrediction.prediction.engine}
+                      </span>
+                    </div>
+                    <p className="font-medium text-[11px] leading-relaxed">
+                      {aiPrediction.prediction.action}
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>

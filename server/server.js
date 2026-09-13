@@ -16,6 +16,8 @@ const corridorRoutes = require("./src/routes/corridorroutes");
 const villageRoutes = require("./src/routes/villageroutes");
 const routeRoutes = require("./src/routes/routeroutes");
 
+const aiRoutes = require("./src/routes/aiRoutes");
+
 const allowedOrigins = [
   "http://localhost:5173",
   "https://main.d1uu2kkug1zyzf.amplifyapp.com"
@@ -61,6 +63,7 @@ app.use("/api/sensors", sensorRoutes);
 app.use("/api/corridors", corridorRoutes);
 app.use("/api/villages", villageRoutes);
 app.use("/api/routes", routeRoutes);
+app.use("/api/ai", aiRoutes);
 
 // Test route
 app.get("/", (req, res) => {

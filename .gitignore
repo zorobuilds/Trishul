@@ -25,3 +25,13 @@ server/graphify-out/
 # OS files
 .DS_Store
 Thumbs.db
+# Python virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+anime.jpg
