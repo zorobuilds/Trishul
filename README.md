@@ -105,7 +105,9 @@ graph TD
 - Citizen reporting pipeline to capture ground-truth rockfalls and mudflows.
 - Automatic GPS geotagging using browser Geolocation API.
 - Photo attachment support with 5MB security validation limits.
-- Tri-state verification lifecycle: `PENDING` $ightarrow$ `VERIFIED` $ightarrow$ `RESOLVED`.
+- Tri-state verification lifecycle: `PENDING` $
+ightarrow$ `VERIFIED` $
+ightarrow$ `RESOLVED`.
 
 ### 4. Dynamic Safe Corridor Navigation (`/safe-routes`)
 - Calculates evacuation and relief detours avoiding active mudflow zones and structural road cracks.
@@ -286,13 +288,6 @@ Open your browser at `http://localhost:5173`.
 
 ---
 
-## 👥 Team & Acknowledgments
-
-Built with dedication for **Smart India Hackathon 2026** by **Team TRISHUL**:
-- **Team Lead & Full-Stack / ML Architecture:** [Your Name / Profile]
-- **IoT & Embedded Telemetry Systems:** [Teammate 2]
-- **GIS Mapping & UI/UX Design:** [Teammate 3]
-- **Data Engineering & Cloud Infrastructure:** [Teammate 4]
 
 *Special gratitude to the mentors and researchers from National Disaster Management Authority (NDMA) guidelines and Geological Survey of India (GSI) documentation.*
 
